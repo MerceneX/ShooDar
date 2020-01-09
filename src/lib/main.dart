@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'injection_container.dart' as di;
 
 import './features/main_menu/presentation/pages/main_menu_page.dart';
-import './features/add_radar/presentation/pages/simple_mode_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'ShooDar',
       theme: ThemeData(
-        primaryColor: Colors.green.shade800,
-        accentColor: Colors.green.shade600,
+        primaryColor: Colors.orange,
+        accentColor: Colors.blue,
       ),
       home: MainMenuPage(),
     );

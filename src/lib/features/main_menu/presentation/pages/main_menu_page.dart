@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
+import 'package:shoodar/features/radar/presentation/pages/simple_mode_page.dart';
+import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../injection_container.dart';
-import '../../../radar/presentation/widgets/message_display.dart';
 
 class MainMenuPage extends StatelessWidget {
   @override
@@ -21,31 +22,51 @@ class MainMenuPage extends StatelessWidget {
 
   BlocProvider<RadarBloc> buildBody(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<RadarBloc>(),
-      child: Column(children: <Widget>[
-        OutlineButton(child: Text("Advanced Mode"), onPressed: null),
-        OutlineButton(
-          child: Text("Settings Mode"),
-          onPressed: () => showToast(context),
-        ),
-        OutlineButton(
-          child: Text("Sign Up Mode"),
-          onPressed: null,
-        ),
-        OutlineButton(
-          child: Text("Register Mode"),
-          onPressed: null,
-        ),
-        OutlineButton(
-          child: Text("Simple Mode"),
-          onPressed: null,
-        ),
-      ]),
-    );
+        create: (_) => sl<RadarBloc>(),
+        child: Center(child: buildNavigation(context)));
+  }
+
+  Column buildNavigation(BuildContext context) {
+    return Column(children: <Widget>[
+      OutlineButton(
+        child: Text("Advanced Mode"),
+        onPressed: () => goAdvancedMode(context),
+      ),
+      OutlineButton(
+        child: Text("Settings"),
+        onPressed: () => showToast(context),
+      ),
+      OutlineButton(
+        child: Text("Sign Up"),
+        onPressed: null,
+      ),
+      OutlineButton(
+        child: Text("Register"),
+        onPressed: null,
+      ),
+      OutlineButton(
+        child: Text("Simple Mode"),
+        onPressed: () => goSimpleMode(context),
+      ),
+    ]);
   }
 
   void showToast(BuildContext context) {
     Toast.show("It's a me, Toastio", context,
         duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+  }
+
+  void goSimpleMode(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SimpleModePage()),
+    );
+  }
+
+  void goAdvancedMode(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => AdvancedModePage()),
+    );
   }
 }
