@@ -10,10 +10,7 @@ class Loading extends RadarEvent {
 }
 
 class AddRadarEvent extends RadarEvent {
-  final double lattitude;
-  final double longitude;
-
-  AddRadarEvent(this.lattitude, this.longitude);
+  AddRadarEvent();
 
   @override
   List<Object> get props => null;

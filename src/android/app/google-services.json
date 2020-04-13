@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "445276282735",
+    "firebase_url": "https://shoodar-3f362.firebaseio.com",
+    "project_id": "shoodar-3f362",
+    "storage_bucket": "shoodar-3f362.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:445276282735:android:f59118b3e4a825b738529a",
+        "android_client_info": {
+          "package_name": "com.shoodar_app.shoodar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "445276282735-a3230rohpat21p2sgdjfubfeo1vq36vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB65Cdb0-y2j3piaaDQpv7dqoct2Vkgsgk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "445276282735-a3230rohpat21p2sgdjfubfeo1vq36vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
