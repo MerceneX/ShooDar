@@ -41,7 +41,7 @@ import '../bloc/radar_event.dart';
                   ),
                 )),
             onTap: () {
-              dispatchAdd();
+              dispatchAdd();    
               showGeneralDialog(
                   context: context,
                   barrierDismissible: true,

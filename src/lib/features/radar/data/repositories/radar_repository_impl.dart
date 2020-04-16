@@ -15,7 +15,9 @@ class RadarRepositoryImpl implements RadarRepository {
 
   @override
   Future<void> addRadarOnCurrentLocation() async { 
+    radarDataSource.getAllRadars();
     Position coordinates = await _getCurrentLocation();
+    
     Radar radar = new Radar(
       timeCreated: DateTime.now(), 
       latitude: coordinates.latitude, 
@@ -25,17 +27,24 @@ class RadarRepositoryImpl implements RadarRepository {
   }
 
   @override
-  Radar getAllRadars() {
-    // TODO: implement getAllRadars
-    return null;
+  Future<List<Radar>> getAllRadars() async {
+    List<Radar> all = await radarDataSource.getAllRadars();
+    return all;
+  }
+
+  @override
+  Future<void> deleteRadar(String id) {
+    radarDataSource.deleteRadar(id);
   }
 
   Future<Position> _getCurrentLocation() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
     if(position == null)
       position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
 
     return position;
   }
+
+  
 }

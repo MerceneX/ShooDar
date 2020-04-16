@@ -1,6 +1,7 @@
 import '../entitites/radar.dart';
 
 abstract class RadarRepository {
-  Radar getAllRadars();
+  Future<List<Radar>> getAllRadars();
   void addRadarOnCurrentLocation();
+  Future<void> deleteRadar(String id);
 }
