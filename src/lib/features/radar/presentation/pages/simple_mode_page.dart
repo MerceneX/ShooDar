@@ -25,15 +25,5 @@ class SimpleModePage extends StatelessWidget {
         ));
   }
 
-  // BlocProvider<RadarBloc> buildBody(BuildContext context) {
-  //   return BlocProvider(
-  //       create: (_) => sl<RadarBloc>(),
-  //       child: BlocBuilder<RadarBloc, RadarState>(
-  //         builder: (context, state) {
-  //           return BigAddRadarButton(
-  //             leftHanded: false);
-  //         }
-  //       )
-  //     );
-  // }               
+            
 }

@@ -7,8 +7,6 @@ import 'package:toast/toast.dart';
 import '../bloc/bloc.dart';
 import '../bloc/radar_event.dart';
 
-
-
   class BigAddRadarButton extends StatefulWidget {
     final bool leftHanded;
     
@@ -41,7 +39,7 @@ import '../bloc/radar_event.dart';
                   ),
                 )),
             onTap: () {
-              dispatchAdd();    
+              dispatchAdd();             
               showGeneralDialog(
                   context: context,
                   barrierDismissible: true,
@@ -87,14 +85,15 @@ import '../bloc/radar_event.dart';
                         ));
                   });
             }),
+            
       );
     }
 
   void dispatchAdd() {
     BlocProvider.of<RadarBloc>(context).add(AddRadarEvent());
   }
-}
 
+}
 
 class RadarAddConfirmationDialog extends StatelessWidget {
     @override

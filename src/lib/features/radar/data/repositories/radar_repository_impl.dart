@@ -33,7 +33,7 @@ class RadarRepositoryImpl implements RadarRepository {
   }
 
   @override
-  Future<void> deleteRadar(String id) {
+  Future<void> deleteRadar(String id) async {
     radarDataSource.deleteRadar(id);
   }
 

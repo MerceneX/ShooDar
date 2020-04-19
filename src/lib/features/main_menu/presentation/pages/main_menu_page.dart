@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/presentation/pages/simple_mode_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
+import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
+
 import 'package:toast/toast.dart';
 
 import '../../../../injection_container.dart';
@@ -48,6 +50,10 @@ class MainMenuPage extends StatelessWidget {
         child: Text("Simple Mode"),
         onPressed: () => goSimpleMode(context),
       ),
+      OutlineButton(
+        child: Text("Map"),
+        onPressed: () => goMap(context),
+      ),
     ]);
   }
 
@@ -67,6 +73,13 @@ class MainMenuPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AdvancedModePage()),
+    );
+  }
+
+  void goMap(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MapPage()),
     );
   }
 }

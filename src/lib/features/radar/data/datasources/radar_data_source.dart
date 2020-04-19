@@ -26,6 +26,7 @@ class RadarDataSourceImpl implements RadarDataSource {
     
     snapshot.documents.forEach((radar) => {
       allRadars.add( new Radar(
+        id: radar.documentID,
         timeCreated: radar.data['timeCreated'].toDate(),
         latitude: radar.data['location'].latitude,
         longitude: radar.data['location'].longitude,
@@ -36,7 +37,7 @@ class RadarDataSourceImpl implements RadarDataSource {
   }
 
   @override
-  Future<void> deleteRadar(String id) {
+  Future<void> deleteRadar(String id) async {
     databaseRef
         .collection('radars')
         .document(id)
