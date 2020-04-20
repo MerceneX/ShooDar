@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/presentation/pages/simple_mode_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
+import 'package:shoodar/features/user/presentation/pages/register_user.dart';
 import 'package:toast/toast.dart';
 
 import '../../../../injection_container.dart';
@@ -13,6 +14,7 @@ class MainMenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Main Menu'),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: SingleChildScrollView(
         child: buildBody(context),
@@ -37,12 +39,12 @@ class MainMenuPage extends StatelessWidget {
         onPressed: () => showToast(context),
       ),
       OutlineButton(
-        child: Text("Sign Up"),
+        child: Text("Sign In"),
         onPressed: null,
       ),
       OutlineButton(
         child: Text("Register"),
-        onPressed: null,
+        onPressed: () => goRegister(context),
       ),
       OutlineButton(
         child: Text("Simple Mode"),
@@ -68,5 +70,10 @@ class MainMenuPage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => AdvancedModePage()),
     );
+  }
+
+  void goRegister(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => RegisterPage()));
   }
 }
