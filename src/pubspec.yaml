@@ -14,11 +14,11 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
   flutter:
-    sdk: flutter
+    sdk: flutter  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -42,6 +42,16 @@ dependencies:
   rflutter_alert: ^1.0.2
   # Tons of Fonts
   google_fonts: ^0.3.8
+  #firebase auth
+  firebase_auth: ^0.14.0+5
+  #cloud firestore
+  cloud_firestore: ^0.12.9+4
+  #geolocatator
+  geolocator: ^5.3.1
+  #googleMaps
+  google_maps_flutter: ^0.5.25+3
+  #location
+  location: ^3.0.2
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +67,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
