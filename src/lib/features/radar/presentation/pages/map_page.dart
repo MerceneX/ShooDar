@@ -18,7 +18,7 @@ class MapPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Simple Mode'),
+        title: Text('Map'),
       ),
       body: buildBody(context),
     );
@@ -38,14 +38,14 @@ BlocProvider<RadarBloc> buildBody(BuildContext context) {
           } else if(state is Loading) {
             return LoadingWidget();
           } else if(state is Loaded) {
-            return Map(radars: state.radars);
+            return Map(radars: state.radars, location: state.location, controller: state.controller, intitalCameraPosition: state.initialCameraPosition);
           }                 
         }),
     );
   }
 
   dispatchGetRadars(context) {
-    BlocProvider.of<RadarBloc>(context).add(GetRadarsEvent());
+    BlocProvider.of<RadarBloc>(context).add(LoadMapEvent());
   }
 }
 

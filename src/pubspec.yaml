@@ -51,7 +51,7 @@ dependencies:
   #googleMaps
   google_maps_flutter: ^0.5.25+3
   #location
-  location: ^3.0.2
+  location: ^3.0.0
 
 dev_dependencies:
   flutter_test:

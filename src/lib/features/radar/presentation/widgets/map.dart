@@ -1,20 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:shoodar/features/radar/domain/entitites/radar.dart';
+import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
+import 'package:shoodar/features/user/domain/entities/user_location.dart';
 
 const double CAMERA_ZOOM = 16;
 
 class Map extends StatefulWidget {
-  static const LatLng _center = const LatLng(46.056946, 14.505751);
-
-  final List<Radar> radars;
+  final Set<Marker> radars;
+  final UserLocation location;
+  final Completer<GoogleMapController> controller;
+  final CameraPosition intitalCameraPosition;
 
   const Map({
       Key key,
       @required this.radars,
+      @required this.controller,
+      @required this.intitalCameraPosition,
+      this.location
     }) : super(key: key);
 
   @override
@@ -22,76 +28,60 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
-  final Completer<GoogleMapController> _controller = Completer();
   LocationData currentLocation;
   Location location;
 
-  BitmapDescriptor pinLocationIcon;
-  final Set<Marker> _markers = {};
-
   @override
   void initState() {
-      super.initState();
+    super.initState();
 
-      setCustomMapPin();
+    location = new Location();
 
-      location = new Location();
- 
-      location.onLocationChanged.listen((LocationData cLoc) {
-        currentLocation = cLoc;
-      });
+    location.onLocationChanged.listen((LocationData cLoc) {
+      currentLocation = cLoc;
+      updatePinOnMap();
+   });
 
-      setInitialLocation();
-     
+   setInitialLocation();
+
   }
 
   void setInitialLocation() async {
-    currentLocation = await location.getLocation();
+   currentLocation = await location.getLocation();
   }
 
-  void setCustomMapPin() async {
-  pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(devicePixelRatio: 2.5),
-      'assets/icons8-police-car-64.png');
-}
+  void updatePinOnMap() async {
+   CameraPosition cPosition = CameraPosition(
+   zoom: 16.0,
+   tilt: 80,
+   bearing: 30,
+   target: LatLng(currentLocation.latitude,
+      currentLocation.longitude),
+   );
+    final GoogleMapController controller = await widget.controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+  }
 
   @override
   Widget build(BuildContext context) {
-    CameraPosition initialCameraPosition = CameraPosition(
-        zoom: 7.0,
-        target: LatLng(46.056946,  14.505751));
-
     return Scaffold(
         body: GoogleMap(
           myLocationButtonEnabled: true,
           myLocationEnabled: true,
           compassEnabled: true,
           onMapCreated: _onMapCreated,
-          markers: _markers,
-          initialCameraPosition: initialCameraPosition
+          markers: widget.radars,
+          initialCameraPosition: widget.intitalCameraPosition
             )
       );
   }
 
-   void _onMapCreated(GoogleMapController controller) {
-      _addMarkers();
-      _controller.complete(controller); 
+  void _onMapCreated(GoogleMapController controller) {
+      widget.controller.complete(controller); 
   }
 
-  void _addMarkers() {
-    setState(() {
-      widget.radars.forEach((radar) => {
-      _markers.add(Marker(
-        markerId: MarkerId(radar.id),
-        position: LatLng(radar.latitude, radar.longitude),
-        infoWindow: InfoWindow(
-          title: 'Created at:',
-          snippet: radar.timeCreated.toString(),
-        ),
-        icon: pinLocationIcon
-      ))    
-    });
-    });
+  void dispatchUpdateLocation(Set<Marker> markers, Completer<GoogleMapController> controller) {
+    BlocProvider.of<RadarBloc>(context).add(LocationChangedEvent(markers, controller));
   }
 }
 
