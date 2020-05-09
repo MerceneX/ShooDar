@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_all_radars.dart';
-import 'package:shoodar/features/user/data/datasources/services/location_service.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 import 'package:shoodar/features/user/domain/usecases/get_user_location.dart';
 import './bloc.dart';

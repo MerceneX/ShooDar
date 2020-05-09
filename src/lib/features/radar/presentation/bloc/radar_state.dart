@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 
 abstract class RadarState extends Equatable {

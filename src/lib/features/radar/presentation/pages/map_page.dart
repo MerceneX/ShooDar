@@ -30,7 +30,7 @@ BlocProvider<RadarBloc> buildBody(BuildContext context) {
       create: (_) => sl<RadarBloc>(),
       child: BlocBuilder<RadarBloc, RadarState>(
         builder: (context, state){
-          
+
           dispatchGetRadars(context);
           if(state is InitialRadarState) {
             return MessageDisplay(
@@ -38,7 +38,11 @@ BlocProvider<RadarBloc> buildBody(BuildContext context) {
           } else if(state is Loading) {
             return LoadingWidget();
           } else if(state is Loaded) {
-            return Map(radars: state.radars, location: state.location, controller: state.controller, intitalCameraPosition: state.initialCameraPosition);
+            return Map(
+              radars: state.radars, 
+              location: state.location, 
+              controller: state.controller, 
+              intitalCameraPosition: state.initialCameraPosition);
           }                 
         }),
     );

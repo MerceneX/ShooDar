@@ -1,5 +1,5 @@
 
-import 'package:geolocator/geolocator.dart';
+
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 
 import '../../domain/repositories/user_repository.dart';

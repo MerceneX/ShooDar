@@ -7,8 +7,6 @@ import 'package:location/location.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 
-const double CAMERA_ZOOM = 16;
-
 class Map extends StatefulWidget {
   final Set<Marker> radars;
   final UserLocation location;
@@ -40,10 +38,9 @@ class _MapState extends State<Map> {
     location.onLocationChanged.listen((LocationData cLoc) {
       currentLocation = cLoc;
       updatePinOnMap();
-   });
+    });
 
-   setInitialLocation();
-
+    setInitialLocation();
   }
 
   void setInitialLocation() async {
@@ -58,7 +55,9 @@ class _MapState extends State<Map> {
    target: LatLng(currentLocation.latitude,
       currentLocation.longitude),
    );
+
     final GoogleMapController controller = await widget.controller.future;
+
     controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
   }
 

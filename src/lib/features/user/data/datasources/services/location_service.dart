@@ -1,7 +1,6 @@
 
 import 'dart:async';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 
