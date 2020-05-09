@@ -52,6 +52,8 @@ dependencies:
   google_maps_flutter: ^0.5.25+3
   #location
   location: ^3.0.0
+  #latlon
+  latlong: ^0.6.1
 
 dev_dependencies:
   flutter_test:
