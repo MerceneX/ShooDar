@@ -2,21 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme() {
+  const primaryColor = Color.fromRGBO(50, 139, 255, 1.0);
+  const secColor = Color.fromRGBO(254, 144, 0, 1.0);
+  const bckgColor = Color.fromRGBO(142, 180, 229, 1.0);
+  const primaryText = Color.fromRGBO(244, 244, 255, 1.0);
+  const secText = Color.fromRGBO(10, 10, 10, 1.0);
   return ThemeData(
     // Define the default brightness and colors.
     brightness: Brightness.light,
-    primaryColor: Colors.orange,
-    accentColor: Colors.blue,
-
+    primaryColor: primaryColor,
+    backgroundColor: bckgColor,
+    accentColor: secColor,
     // Define the default font family.
     fontFamily: 'Georgia',
 
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-      headline: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-      title: GoogleFonts.sriracha(fontSize: 50),
-      body1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+      headline2: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+      headline1: GoogleFonts.sriracha(fontSize: 60, color: primaryText),
+      bodyText1:
+          TextStyle(fontSize: 14.0, fontFamily: 'Hind', color: primaryText),
     ),
   );
 }
