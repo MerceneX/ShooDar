@@ -50,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
             children: <Widget>[
               Text("Registrirajte se",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.title),
+                  style: Theme.of(context).textTheme.headline1),
               GeneralTextField(
                   icon: Icon(Icons.email),
                   hint: "Vnesite email",
@@ -84,7 +84,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               borderRadius: new BorderRadius.circular(30.0)),
                           child: Text(
                             "Potrdi",
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.headline1,
                           ),
                           onPressed: () => validateForm())))
             ]));
