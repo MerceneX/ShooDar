@@ -10,9 +10,7 @@ class SimpleModePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Simple Mode'),
-      ),
+      backgroundColor: Theme.of(context).primaryColor,
       body: buildBody(context),
     );
   }
@@ -20,10 +18,24 @@ class SimpleModePage extends StatelessWidget {
   BlocProvider<RadarBloc> buildBody(BuildContext context) {
     return BlocProvider(
         create: (_) => sl<RadarBloc>(),
-        child: BigAddRadarButton(
-          leftHanded: false,
-        ));
+        child: Padding(
+            padding: EdgeInsets.only(top: 15.0),
+            child: Column(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(top: 50, bottom: 50),
+                child: Container(
+                    color: Theme.of(context).accentColor,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Shoo',
+                            style: Theme.of(context).textTheme.headline1),
+                        Text('Dar',
+                            style: Theme.of(context).textTheme.headline1)
+                      ],
+                    )),
+              ),
+              BigAddRadarButton()
+            ])));
   }
-
-            
 }

@@ -7,11 +7,8 @@ import '../bloc/bloc.dart';
 import '../bloc/radar_event.dart';
 
 class BigAddRadarButton extends StatefulWidget {
-  final bool leftHanded;
-
   const BigAddRadarButton({
     Key key,
-    @required this.leftHanded,
   }) : super(key: key);
 
   @override
@@ -21,91 +18,39 @@ class BigAddRadarButton extends StatefulWidget {
 class _BigAddRadarButtonState extends State<BigAddRadarButton> {
   @override
   Widget build(BuildContext context) {
-    ScreenProperties screenProperties = ScreenProperties(context);
-
     return Container(
-      alignment:
-          widget.leftHanded ? Alignment.bottomLeft : Alignment.bottomRight,
       child: GestureDetector(
-          child: ClipRRect(
-              borderRadius:
-                  new BorderRadius.only(topLeft: const Radius.circular(180.0)),
-              child: Container(
-                color: Colors.red,
-                width: screenProperties.width * 0.9,
-                height: screenProperties.getHeightWOutSafeArea() * 0.7,
-                child: Center(
-                  child: Text("RADAR"),
-                ),
-              )),
+          child: Container(
+              height: MediaQuery.of(context).size.height - 205,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Theme.of(context).accentColor,
+                    style: BorderStyle.solid,
+                    width: 3),
+                color: Theme.of(context).backgroundColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(100.0),
+                    bottomRight: Radius.circular(50)),
+              ),
+              child: Center(
+                  child: RotatedBox(
+                quarterTurns: 0,
+                child: Text("Dodaj radar",
+                    style: new TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText1.fontFamily,
+                        color: Theme.of(context).textTheme.bodyText1.color,
+                        fontSize: 80.0,
+                        fontWeight: FontWeight.w700)),
+              ))),
           onTap: () {
             dispatchAdd();
-            showGeneralDialog(
-                context: context,
-                barrierDismissible: true,
-                barrierLabel:
-                    MaterialLocalizations.of(context).modalBarrierDismissLabel,
-                barrierColor: Colors.black45,
-                transitionDuration: const Duration(milliseconds: 200),
-                pageBuilder: (BuildContext buildContext, Animation animation,
-                    Animation secondaryAnimation) {
-                  return FractionallySizedBox(
-                      heightFactor: 1,
-                      widthFactor: 1,
-                      child: Container(
-                        width: screenProperties.width * 0.9,
-                        height:
-                            screenProperties.getHeightWOutStatusAndToolBar(),
-                        color: Colors.orangeAccent,
-                        child: GestureDetector(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Container(
-                                    child: Center(child: Text("Ne")),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {},
-                                  child: Container(
-                                    child: Center(child: Text("Da")),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onTap: () => Toast.show(
-                                "It's a me, Toastio", context,
-                                duration: Toast.LENGTH_SHORT,
-                                gravity: Toast.BOTTOM)),
-                      ));
-                });
           }),
     );
   }
 
   void dispatchAdd() {
     BlocProvider.of<RadarBloc>(context).add(AddRadarEvent());
-  }
-}
-
-class RadarAddConfirmationDialog extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text("Dodaj Radar?"),
-      actions: <Widget>[
-        FlatButton(child: Text("Da"), onPressed: null),
-        FlatButton(
-            child: Text("Ne"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
-      ],
-    );
   }
 }

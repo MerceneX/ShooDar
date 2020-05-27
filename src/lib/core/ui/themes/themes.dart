@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 ThemeData lightTheme() {
   const primaryColor = Color.fromRGBO(50, 139, 255, 1.0);
-  const secColor = Color.fromRGBO(254, 144, 0, 1.0);
+  const secColor = Color.fromRGBO(230, 120, 0, 1.0);
   const bckgColor = Color.fromRGBO(142, 180, 229, 1.0);
   const primaryText = Color.fromRGBO(244, 244, 255, 1.0);
   const secText = Color.fromRGBO(10, 10, 10, 1.0);
