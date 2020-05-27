@@ -7,5 +7,14 @@ abstract class UserState extends Equatable {
 
 class InitialUserState extends UserState {}
 
-class Loading extends UserState {}
+class AuthSuccess extends UserState {
+  AuthSuccess();
+  List<Object> get props => [];
+}
 
+class Error extends UserState {
+  final String message;
+
+  Error({this.message});
+  List<Object> get props => [message];
+}
