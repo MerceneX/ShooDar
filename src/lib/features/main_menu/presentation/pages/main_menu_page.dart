@@ -68,37 +68,43 @@ class MainMenuPage extends StatelessWidget {
                   padding: EdgeInsets.only(left: 50.0, top: 50.0, right: 10.0),
                   children: <Widget>[
                     MainMenuItem(
-                      text: "Simple Mode",
+                      text: "Enostaven Način",
                       height: 200,
-                      fontSize: 65.0,
+                      fontSize: 55.0,
                       padding: EdgeInsets.only(bottom: 50, top: 25),
                       onPressed: () => goSimpleMode(context),
                     ),
                     MainMenuItem(
-                      text: "Map",
+                      text: "Zemljevid",
                       onPressed: () => goMap(context),
                     ),
                     MainMenuItem(
-                      text: "Advanced Mode",
+                      text: "Podrobnosti",
                       onPressed: () => goAdvancedMode(context),
                     ),
                     MainMenuItem(
-                      text: "Sign In",
-                      onPressed: () => goLogin(context),
-                    ),
-                    MainMenuItem(
-                      text: "Register",
-                      onPressed: () => goRegister(context),
-                    ),
-                    MainMenuItem(
-                      text: "Settings",
+                      text: "Nastavitve",
                       onPressed: () => showToast(context),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        MainMenuItem(
+                          text: "Registacija",
+                          onPressed: () => goRegister(context),
+                        ),
+                        MainMenuItem(
+                          text: "Vpis",
+                          onPressed: () => goLogin(context),
+                        ),
+                      ],
                     ),
                     BlocBuilder<MainMenuBloc, MainMenuState>(
                         builder: (context, state) {
                       if (isLocked == false) {
                         BlocProvider.of<MainMenuBloc>(context)
                             .add(UnlockEvent());
+                        return null;
                       }
                       if (state is InitialMainMenuState) {
                         return MessageDisplay(
@@ -109,6 +115,7 @@ class MainMenuPage extends StatelessWidget {
                           locked: true,
                         );
                       }
+                      return null;
                     })
                   ]))
         ]));
