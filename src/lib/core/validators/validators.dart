@@ -1,15 +1,18 @@
-String emailValidator(String value) {
+import 'package:dartz/dartz.dart';
+import 'package:shoodar/core/error/failure.dart';
+
+Either<Failure, bool> emailValidator(String value) {
   Pattern pattern =
       r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
   RegExp regex = new RegExp(pattern);
-  if (value.isEmpty) return '*Required';
+  if (value == null || value.isEmpty) return Left(NoInputFailure());
   if (!regex.hasMatch(value))
-    return '*Vnesite ustrezen email';
+    return Left(InvalidEmailFailure());
   else
-    return null;
+    return Right(true);
 }
 
-String passwordValidator(String value) {
-  if (value.isEmpty) return '*Vnesite geslo';
-  return null;
+Either<Failure, bool> passwordValidator(String value) {
+  if (value == null || value.isEmpty) return Left(NoInputFailure());
+  return Right(true);
 }

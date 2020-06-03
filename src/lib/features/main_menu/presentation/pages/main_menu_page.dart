@@ -69,7 +69,7 @@ class MainMenuPage extends StatelessWidget {
                   children: <Widget>[
                     MainMenuItem(
                       text: "Enostaven Način",
-                      height: 200,
+                      height: 175,
                       fontSize: 55.0,
                       padding: EdgeInsets.only(bottom: 50, top: 25),
                       onPressed: () => goSimpleMode(context),
@@ -86,18 +86,13 @@ class MainMenuPage extends StatelessWidget {
                       text: "Nastavitve",
                       onPressed: () => showToast(context),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        MainMenuItem(
-                          text: "Registacija",
-                          onPressed: () => goRegister(context),
-                        ),
-                        MainMenuItem(
-                          text: "Vpis",
-                          onPressed: () => goLogin(context),
-                        ),
-                      ],
+                    MainMenuItem(
+                      text: "Registacija",
+                      onPressed: () => goRegister(context),
+                    ),
+                    MainMenuItem(
+                      text: "Vpis",
+                      onPressed: () => goLogin(context),
                     ),
                     BlocBuilder<MainMenuBloc, MainMenuState>(
                         builder: (context, state) {

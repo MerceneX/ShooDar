@@ -6,12 +6,13 @@ import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
 class RegisterForm extends StatefulWidget {
   const RegisterForm({
     Key key,
+    String emailError,
+    String passwordError,
   }) : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
-
 
 class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
@@ -32,10 +33,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 controller: controllerUsername,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'email',
-                ),
-                  onChanged: (emailValue) {
+                    border: OutlineInputBorder(),
+                    hintText: 'email',
+                    errorText: null),
+                onChanged: (emailValue) {
                   username = emailValue;
                 },
                 onSubmitted: (_) {
@@ -43,12 +44,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
               TextField(
-                  controller: controllerPassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'password',
-                ),
+                controller: controllerPassword,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'password',
+                    errorText: null),
                 onChanged: (passwordValue) {
                   password = passwordValue;
                 },
@@ -72,13 +73,14 @@ class _RegisterFormState extends State<RegisterForm> {
                               borderRadius: new BorderRadius.circular(30.0)),
                           child: Text(
                             "Potrdi",
-                            style: Theme.of(context).textTheme.title,
+                            style: Theme.of(context).textTheme.bodyText1,
                           ),
                           onPressed: () => dispatchRegister())))
             ]));
   }
 
   void dispatchRegister() {
-    BlocProvider.of<UserBloc>(context).add(RegisterUserEvent(username, password));
+    BlocProvider.of<UserBloc>(context)
+        .add(RegisterUserEvent(username, password));
   }
 }

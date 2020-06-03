@@ -37,9 +37,13 @@ class RegisterPage extends StatelessWidget {
                     return MessageDisplay(
                       message: 'Registered',
                     );
+                  } else if (state is RegistrationValidationErrorState) {
+                    return MessageDisplay(
+                      message: state.emailError + "\n" + state.passwordError,
+                    );
                   } else if (state is Error) {
                     return MessageDisplay(
-                      message: state.message,
+                      message: "Random err",
                     );
                   }
                 },

@@ -13,13 +13,17 @@ abstract class Failure extends Equatable {
 }
 
 class LoginFailure extends Failure {
-  LoginFailure(String message){
+  LoginFailure(String message) {
     super.message = message;
   }
 }
 
 class RegisterFailure extends Failure {
-  RegisterFailure(String message){
+  RegisterFailure(String message) {
     super.message = message;
   }
 }
+
+class NoInputFailure extends Failure {}
+
+class InvalidEmailFailure extends Failure {}

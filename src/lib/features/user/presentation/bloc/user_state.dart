@@ -12,6 +12,14 @@ class AuthSuccess extends UserState {
   List<Object> get props => [];
 }
 
+class RegistrationValidationErrorState extends UserState {
+  final String emailError;
+  final String passwordError;
+  RegistrationValidationErrorState({this.emailError, this.passwordError});
+
+  List<Object> get props => [];
+}
+
 class Error extends UserState {
   final String message;
 

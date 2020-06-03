@@ -36,7 +36,7 @@ class _BigAddRadarButtonState extends State<BigAddRadarButton> {
               child: Center(
                   child: RotatedBox(
                 quarterTurns: 0,
-                child: Text("Dodaj radar",
+                child: Text("Radar!",
                     style: new TextStyle(
                         fontFamily:
                             Theme.of(context).textTheme.bodyText1.fontFamily,
