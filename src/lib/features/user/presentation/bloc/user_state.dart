@@ -26,3 +26,11 @@ class Error extends UserState {
   Error({this.message});
   List<Object> get props => [message];
 }
+
+class LoginValidationErrorState extends UserState {
+  final String emailError;
+  final String passwordError;
+  LoginValidationErrorState({this.emailError, this.passwordError});
+
+  List<Object> get props => [];
+}

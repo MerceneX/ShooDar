@@ -26,30 +26,28 @@ class LoginPage extends StatelessWidget {
             padding: EdgeInsets.only(top: 15),
             child: Column(children: <Widget>[
               LoginForm(),
-
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                    if (state is InitialUserState) {
-                      return MessageDisplay(
-                        message: 'Log in please',
-                      );
-                    }
-                    else if(state is AuthSuccess){
-                      MainMenuPage.isLocked = false;
-                      return MessageDisplay(
-                        message: 'LoggedIn',
-                      );
-                    }
-                    else if(state is Error){
-                      return MessageDisplay(
-                        message: state.message,
-                      );
-                    }
-                  },
+                  if (state is InitialUserState) {
+                    return MessageDisplay(
+                      message: 'Log in please',
+                    );
+                  } else if (state is AuthSuccess) {
+                    MainMenuPage.isLocked = false;
+                    return MessageDisplay(
+                      message: 'LoggedIn',
+                    );
+                  } else if (state is LoginValidationErrorState) {
+                    return MessageDisplay(
+                      message: state.emailError + "\n" + state.passwordError,
+                    );
+                  } else if (state is Error) {
+                    return MessageDisplay(
+                      message: state.message,
+                    );
+                  }
+                },
               ),
-            ]
-          )
-        )
-      );
+            ])));
   }
 }

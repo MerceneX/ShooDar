@@ -16,3 +16,8 @@ Either<Failure, bool> passwordValidator(String value) {
   if (value == null || value.isEmpty) return Left(NoInputFailure());
   return Right(true);
 }
+
+Either<Failure, bool> emptyInputValidator(String value) {
+  if (value == null || value.isEmpty) return Left(NoInputFailure());
+  return Right(true);
+}

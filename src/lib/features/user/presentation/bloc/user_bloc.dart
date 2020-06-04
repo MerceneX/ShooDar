@@ -37,9 +37,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield* _eitherSuccessOrErrorState(failureOrSucces);
       });
     } else if (event is LoginUserEvent) {
-      final failureOrSucces =
-          await loginUser(Params(email: event.email, password: event.password));
-      yield* _eitherSuccessOrErrorState(failureOrSucces);
+      final validateOrFail = validateLogin(event.email, event.password);
+      yield* validateOrFail.fold((l) async* {
+        yield l;
+      }, (r) async* {
+        final failureOrSucces = await loginUser(
+            Params(email: event.email, password: event.password));
+        yield* _eitherSuccessOrErrorState(failureOrSucces);
+      });
     }
   }
 
@@ -62,6 +67,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         passwordOrFail.fold((l) => _mapErrorToMessage(l), (r) => null);
     if (emailErrorMessage != null || passwordErrorMessage != null) {
       return Left(RegistrationValidationErrorState(
+          emailError: emailErrorMessage, passwordError: passwordErrorMessage));
+    } else {
+      return Right(true);
+    }
+  }
+
+  Either<LoginValidationErrorState, bool> validateLogin(email, password) {
+    final emailOrFail = emptyInputValidator(email);
+    var emailErrorMessage =
+        emailOrFail.fold((l) => _mapErrorToMessage(l), (r) => null);
+    final passwordOrFail = emptyInputValidator(password);
+    var passwordErrorMessage =
+        passwordOrFail.fold((l) => _mapErrorToMessage(l), (r) => null);
+    if (emailErrorMessage != null || passwordErrorMessage != null) {
+      return Left(LoginValidationErrorState(
           emailError: emailErrorMessage, passwordError: passwordErrorMessage));
     } else {
       return Right(true);
