@@ -45,6 +45,9 @@ class LoginPage extends StatelessWidget {
                     return MessageDisplay(
                       message: state.message,
                     );
+                  } else {
+                    return MessageDisplay(
+                        message: "Ni bilo najdenega stanje, poskusite kasneje");
                   }
                 },
               ),
