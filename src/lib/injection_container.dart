@@ -1,5 +1,6 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
 import 'core/network/network_info.dart';
 import 'features/main_menu/presentation/bloc/main_menu_bloc.dart';
 import 'features/radar/presentation/bloc/radar_bloc.dart';
@@ -26,7 +27,8 @@ Future<void> init() async {
     () => RadarBloc(
       add: sl(),
       getRadars: sl(),
-      getUserLocation: sl()
+      getUserLocation: sl(),
+      checkForRadars: sl()
     )
   );
   
@@ -45,6 +47,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => AddRadar(sl()));
   sl.registerLazySingleton(() => GetAllRadars(sl()));
   sl.registerLazySingleton(() => GetUserLocation(sl()));
+  sl.registerLazySingleton(() => CheckForRadarsInPresence(sl()));
   
   sl.registerLazySingleton(() => RegisterUser(sl()));
   sl.registerLazySingleton(() => LoginUser(sl()));
