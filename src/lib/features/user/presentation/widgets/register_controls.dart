@@ -27,29 +27,35 @@ class _RegisterFormState extends State<RegisterForm> {
     return Form(
         key: _formKey,
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                controller: controllerUsername,
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'email',
-                    errorText: null),
-                onChanged: (emailValue) {
-                  username = emailValue;
-                },
-                onSubmitted: (_) {
-                  dispatchRegister();
-                },
-              ),
+              Container(
+                  padding: EdgeInsets.only(bottom: 25),
+                  child: TextField(
+                    controller: controllerUsername,
+                    onChanged: (emailValue) {
+                      username = emailValue;
+                    },
+                    onSubmitted: (_) {
+                      dispatchRegister();
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        hintText: 'E-Pošta',
+                        errorText: null,
+                        prefixIcon: Icon(Icons.email)),
+                    autofocus: true,
+                    enableSuggestions: true,
+                  )),
               TextField(
                 controller: controllerPassword,
-                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'password',
-                    errorText: null),
+                    border: UnderlineInputBorder(),
+                    hintText: 'Geslo',
+                    errorText: null,
+                    prefixIcon: Icon(Icons.security)),
                 onChanged: (passwordValue) {
                   password = passwordValue;
                 },
@@ -73,7 +79,7 @@ class _RegisterFormState extends State<RegisterForm> {
                               borderRadius: new BorderRadius.circular(30.0)),
                           child: Text(
                             "Potrdi",
-                            style: Theme.of(context).textTheme.bodyText1,
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           onPressed: () => dispatchRegister())))
             ]));

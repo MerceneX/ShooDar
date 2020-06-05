@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shoodar/core/ui/util/get_screen_measures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:toast/toast.dart';
 
 import '../bloc/bloc.dart';
 import '../bloc/radar_event.dart';

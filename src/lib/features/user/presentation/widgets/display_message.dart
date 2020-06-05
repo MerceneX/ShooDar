@@ -11,14 +11,10 @@ class MessageDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
+      padding: EdgeInsets.only(bottom: 15),
       child: Center(
         child: SingleChildScrollView(
-          child: Text(
-            message,
-            style: TextStyle(fontSize: 25),
-            textAlign: TextAlign.center,
-          ),
+          child: Text(message, style: Theme.of(context).textTheme.headline2),
         ),
       ),
     );
