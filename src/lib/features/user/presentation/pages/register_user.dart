@@ -76,11 +76,7 @@ class RegisterPage extends StatelessWidget {
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is InitialUserState) {
-                            return Padding(
-                                padding: EdgeInsets.only(bottom: 25),
-                                child: MessageDisplay(
-                                  message: 'Registrirajte se',
-                                ));
+                            return Container();
                           } else if (state is AuthSuccess) {
                             MainMenuPage.isLocked = false;
                             return MessageDisplay(

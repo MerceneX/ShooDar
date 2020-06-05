@@ -74,7 +74,11 @@ class _RegisterFormState extends State<RegisterForm> {
                     suffixIcon: GestureDetector(
                       child: Icon(
                         Icons.remove_red_eye,
-                        color: Theme.of(context).textTheme.headline2.color,
+                        color: Theme.of(context)
+                            .textTheme
+                            .headline2
+                            .color
+                            .withOpacity(0.5),
                       ),
                       onTap: _toggle,
                     )),
@@ -97,11 +101,11 @@ class _RegisterFormState extends State<RegisterForm> {
                           highlightColor: Theme.of(context).primaryColor,
                           elevation: 3.0,
                           color:
-                              Theme.of(context).primaryColor.withOpacity(0.85),
+                              Theme.of(context).primaryColor.withOpacity(0.75),
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           child: Text(
-                            "Potrdi",
+                            "Registriraj se",
                             style: Theme.of(context).textTheme.headline2,
                           ),
                           onPressed: () => dispatchRegister())))
