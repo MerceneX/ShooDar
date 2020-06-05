@@ -12,7 +12,6 @@ class LoginForm extends StatefulWidget {
   _LoginFormState createState() => _LoginFormState();
 }
 
-
 class _LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
 
@@ -20,35 +19,68 @@ class _LoginFormState extends State<LoginForm> {
   final controllerPassword = TextEditingController();
   String username;
   String password;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Container(
+                  padding: EdgeInsets.only(bottom: 25),
+                  child: TextField(
+                    controller: controllerUsername,
+                    onChanged: (emailValue) {
+                      username = emailValue;
+                    },
+                    onSubmitted: (_) {
+                      dispatchLogin();
+                    },
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        fillColor: Theme.of(context).textTheme.headline2.color,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        hintText: 'E-Pošta',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.headline2.color),
+                        errorText: null,
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Theme.of(context).textTheme.headline2.color,
+                        )),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    autofocus: true,
+                    enableSuggestions: true,
+                  )),
               TextField(
-                controller: controllerUsername,
-                keyboardType: TextInputType.emailAddress,
+                controller: controllerPassword,
+                obscureText: _obscureText,
                 decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'email',
-                ),
-                  onChanged: (emailValue) {
-                  username = emailValue;
-                },
-                onSubmitted: (_) {
-                  dispatchLogin();
-                },
-              ),
-              TextField(
-                  controller: controllerPassword,
-                  keyboardType: TextInputType.visiblePassword,
-                  decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'password',
-                ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    hintText: 'Geslo',
+                    hintStyle: TextStyle(
+                        color: Theme.of(context).textTheme.headline2.color),
+                    errorText: null,
+                    prefixIcon: Icon(Icons.security,
+                        color: Theme.of(context).textTheme.headline2.color),
+                    suffixIcon: GestureDetector(
+                      child: Icon(
+                        Icons.remove_red_eye,
+                        color: Theme.of(context)
+                            .textTheme
+                            .headline2
+                            .color
+                            .withOpacity(0.5),
+                      ),
+                      onTap: _toggle,
+                    )),
+                style: Theme.of(context).textTheme.bodyText1,
                 onChanged: (passwordValue) {
                   password = passwordValue;
                 },
@@ -67,17 +99,22 @@ class _LoginFormState extends State<LoginForm> {
                           highlightColor: Theme.of(context).primaryColor,
                           elevation: 3.0,
                           color:
-                              Theme.of(context).primaryColor.withOpacity(0.85),
+                              Theme.of(context).primaryColor.withOpacity(0.75),
                           shape: RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(30.0)),
                           child: Text(
-                            "Potrdi",
-                            style: Theme.of(context).textTheme.title,
+                            "Vpiši se",
+                            style: Theme.of(context).textTheme.headline2,
                           ),
                           onPressed: () => dispatchLogin())))
             ]));
   }
 
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
 
   void dispatchLogin() {
     BlocProvider.of<UserBloc>(context).add(LoginUserEvent(username, password));

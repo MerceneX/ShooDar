@@ -12,10 +12,45 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Registracija'),
-      ),
-      body: buildBody(context),
+      body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment(0, 1.7),
+              colors: <Color>[
+                Theme.of(context).primaryColor,
+                Theme.of(context).accentColor,
+              ],
+            ),
+          ),
+          child: ListView(
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.5, 7),
+                    colors: <Color>[
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).accentColor,
+                    ],
+                  ),
+                ),
+                child: Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('ShooDar',
+                        style: Theme.of(context).textTheme.headline1),
+                  ],
+                )),
+              ),
+              buildBody(context)
+            ],
+          )),
     );
   }
 
@@ -23,34 +58,47 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
         create: (_) => sl<UserBloc>(),
         child: Container(
-            padding: EdgeInsets.only(top: 15),
-            child: Column(children: <Widget>[
-              LoginForm(),
-              BlocBuilder<UserBloc, UserState>(
-                builder: (context, state) {
-                  if (state is InitialUserState) {
-                    return MessageDisplay(
-                      message: 'Log in please',
-                    );
-                  } else if (state is AuthSuccess) {
-                    MainMenuPage.isLocked = false;
-                    return MessageDisplay(
-                      message: 'LoggedIn',
-                    );
-                  } else if (state is LoginValidationErrorState) {
-                    return MessageDisplay(
-                      message: state.emailError + "\n" + state.passwordError,
-                    );
-                  } else if (state is Error) {
-                    return MessageDisplay(
-                      message: state.message,
-                    );
-                  } else {
-                    return MessageDisplay(
-                        message: "Ni bilo najdenega stanje, poskusite kasneje");
-                  }
-                },
-              ),
-            ])));
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.03,
+              left: MediaQuery.of(context).size.width * 0.02,
+              right: MediaQuery.of(context).size.width * 0.02,
+            ),
+            child: Container(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.05,
+                  left: MediaQuery.of(context).size.width * 0.10,
+                  right: MediaQuery.of(context).size.width * 0.10,
+                  bottom: MediaQuery.of(context).size.height * 0.02,
+                ),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      BlocBuilder<UserBloc, UserState>(
+                        builder: (context, state) {
+                          if (state is InitialUserState) {
+                            return Container();
+                          } else if (state is AuthSuccess) {
+                            MainMenuPage.isLocked = false;
+                            return MessageDisplay(
+                              message: 'LoggedIn',
+                            );
+                          } else if (state is LoginValidationErrorState) {
+                            return MessageDisplay(
+                              message:
+                                  state.emailError + "\n" + state.passwordError,
+                            );
+                          } else if (state is Error) {
+                            return MessageDisplay(
+                              message: state.message,
+                            );
+                          } else {
+                            return MessageDisplay(
+                                message:
+                                    "Ni bilo najdenega stanje, poskusite kasneje");
+                          }
+                        },
+                      ),
+                      LoginForm(),
+                    ]))));
   }
 }
