@@ -62,43 +62,13 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: GoogleMap(
-            myLocationButtonEnabled: true,
-            myLocationEnabled: true,
-            compassEnabled: true,
-            onMapCreated: _onMapCreated,
-            markers: widget.radars,
-            initialCameraPosition: widget.intitalCameraPosition),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Domov'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              title: Text('Zemljevid'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Nastavitve'),
-            ),
-          ],
-          currentIndex: 1,
-          selectedItemColor: Colors.amber[800],
-          onTap: null,
-        ),
-        floatingActionButton: Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            height: MediaQuery.of(context).size.height * 0.2,
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.linked_camera,
-                size: MediaQuery.of(context).size.height * 0.15,
-              ),
-            )));
+    return GoogleMap(
+        myLocationButtonEnabled: true,
+        myLocationEnabled: true,
+        compassEnabled: true,
+        onMapCreated: _onMapCreated,
+        markers: widget.radars,
+        initialCameraPosition: widget.intitalCameraPosition);
   }
 
   void _onMapCreated(GoogleMapController controller) {

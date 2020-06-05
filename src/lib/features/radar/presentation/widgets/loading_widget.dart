@@ -8,10 +8,14 @@ class LoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3,
       child: Center(
-        child: CircularProgressIndicator(),
-      ),
+          child: SizedBox(
+        child: CircularProgressIndicator(
+          strokeWidth: 8,
+        ),
+        height: MediaQuery.of(context).size.height * 0.2,
+        width: MediaQuery.of(context).size.width * 0.4,
+      )),
     );
   }
 }
