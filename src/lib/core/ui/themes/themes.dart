@@ -19,10 +19,11 @@ ThemeData lightTheme() {
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
     textTheme: TextTheme(
-      headline2: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+      headline2: TextStyle(
+          fontSize: 35, fontWeight: FontWeight.bold, color: primaryText),
       headline1: GoogleFonts.sriracha(fontSize: 50, color: primaryText),
       bodyText1:
-          TextStyle(fontSize: 14.0, fontFamily: 'Hind', color: primaryText),
+          TextStyle(fontSize: 22.0, fontFamily: 'Hind', color: primaryText),
     ),
   );
 }

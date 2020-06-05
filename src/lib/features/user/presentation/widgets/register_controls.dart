@@ -21,6 +21,7 @@ class _RegisterFormState extends State<RegisterForm> {
   final controllerPassword = TextEditingController();
   String username;
   String password;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +42,43 @@ class _RegisterFormState extends State<RegisterForm> {
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
+                        fillColor: Theme.of(context).textTheme.headline2.color,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         hintText: 'E-Pošta',
+                        hintStyle: TextStyle(
+                            color: Theme.of(context).textTheme.headline2.color),
                         errorText: null,
-                        prefixIcon: Icon(Icons.email)),
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: Theme.of(context).textTheme.headline2.color,
+                        )),
+                    style: Theme.of(context).textTheme.bodyText1,
                     autofocus: true,
                     enableSuggestions: true,
                   )),
               TextField(
                 controller: controllerPassword,
-                obscureText: true,
+                obscureText: _obscureText,
                 decoration: InputDecoration(
-                    border: UnderlineInputBorder(),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     hintText: 'Geslo',
+                    hintStyle: TextStyle(
+                        color: Theme.of(context).textTheme.headline2.color),
                     errorText: null,
-                    prefixIcon: Icon(Icons.security)),
+                    prefixIcon: Icon(Icons.security,
+                        color: Theme.of(context).textTheme.headline2.color),
+                    suffixIcon: GestureDetector(
+                      child: Icon(
+                        Icons.remove_red_eye,
+                        color: Theme.of(context).textTheme.headline2.color,
+                      ),
+                      onTap: _toggle,
+                    )),
+                style: Theme.of(context).textTheme.bodyText1,
                 onChanged: (passwordValue) {
                   password = passwordValue;
                 },
@@ -88,5 +111,11 @@ class _RegisterFormState extends State<RegisterForm> {
   void dispatchRegister() {
     BlocProvider.of<UserBloc>(context)
         .add(RegisterUserEvent(username, password));
+  }
+
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
   }
 }

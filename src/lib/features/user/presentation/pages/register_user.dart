@@ -12,26 +12,45 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Registracija'),
-      ),
-      backgroundColor: Theme.of(context).textTheme.bodyText1.color,
-      body: ListView(children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.1,
-          padding: EdgeInsets.only(top: 5, bottom: 5),
-          child: Container(
-              color: Theme.of(context).accentColor,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Shoo', style: Theme.of(context).textTheme.headline1),
-                  Text('Dar', style: Theme.of(context).textTheme.headline1)
-                ],
-              )),
-        ),
-        buildBody(context)
-      ]),
+      body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment(0, 1.7),
+              colors: <Color>[
+                Theme.of(context).primaryColor,
+                Theme.of(context).accentColor,
+              ],
+            ),
+          ),
+          child: ListView(
+            padding:
+                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment(0.5, 7),
+                    colors: <Color>[
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).accentColor,
+                    ],
+                  ),
+                ),
+                child: Container(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('ShooDar',
+                        style: Theme.of(context).textTheme.headline1),
+                  ],
+                )),
+              ),
+              buildBody(context)
+            ],
+          )),
     );
   }
 
@@ -39,7 +58,6 @@ class RegisterPage extends StatelessWidget {
     return BlocProvider(
         create: (_) => sl<UserBloc>(),
         child: Container(
-            height: MediaQuery.of(context).size.height * 0.65,
             padding: EdgeInsets.only(
               top: MediaQuery.of(context).size.height * 0.03,
               left: MediaQuery.of(context).size.width * 0.02,
@@ -47,26 +65,22 @@ class RegisterPage extends StatelessWidget {
             ),
             child: Container(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.1,
+                  top: MediaQuery.of(context).size.height * 0.05,
                   left: MediaQuery.of(context).size.width * 0.10,
                   right: MediaQuery.of(context).size.width * 0.10,
                   bottom: MediaQuery.of(context).size.height * 0.02,
                 ),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                    border: Border.all(
-                        color: Theme.of(context).accentColor,
-                        style: BorderStyle.solid,
-                        width: 3)),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is InitialUserState) {
-                            return MessageDisplay(
-                              message: 'Registrirajte se',
-                            );
+                            return Padding(
+                                padding: EdgeInsets.only(bottom: 25),
+                                child: MessageDisplay(
+                                  message: 'Registrirajte se',
+                                ));
                           } else if (state is AuthSuccess) {
                             MainMenuPage.isLocked = false;
                             return MessageDisplay(
