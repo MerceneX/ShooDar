@@ -40,17 +40,10 @@ class _LoginFormState extends State<LoginForm> {
                     },
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                        fillColor: Theme.of(context).textTheme.headline2.color,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
                         hintText: 'E-Pošta',
-                        hintStyle: TextStyle(
-                            color: Theme.of(context).textTheme.headline2.color),
                         errorText: null,
                         prefixIcon: Icon(
                           Icons.email,
-                          color: Theme.of(context).textTheme.headline2.color,
                         )),
                     style: Theme.of(context).textTheme.bodyText1,
                     autofocus: true,
@@ -60,15 +53,11 @@ class _LoginFormState extends State<LoginForm> {
                 controller: controllerPassword,
                 obscureText: _obscureText,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     hintText: 'Geslo',
-                    hintStyle: TextStyle(
-                        color: Theme.of(context).textTheme.headline2.color),
                     errorText: null,
-                    prefixIcon: Icon(Icons.security,
-                        color: Theme.of(context).textTheme.headline2.color),
+                    prefixIcon: Icon(
+                      Icons.security,
+                    ),
                     suffixIcon: GestureDetector(
                       child: Icon(
                         Icons.remove_red_eye,
@@ -90,23 +79,22 @@ class _LoginFormState extends State<LoginForm> {
               ),
               Padding(
                   padding: EdgeInsets.only(top: 75),
-                  child: ButtonTheme(
-                      minWidth: 300,
-                      height: 80.0,
-                      child: RaisedButton(
-                          highlightElevation: 1.0,
-                          splashColor: Theme.of(context).primaryColor,
-                          highlightColor: Theme.of(context).primaryColor,
-                          elevation: 3.0,
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.75),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0)),
-                          child: Text(
-                            "Vpiši se",
-                            style: Theme.of(context).textTheme.headline2,
-                          ),
-                          onPressed: () => dispatchLogin())))
+                  child: MaterialButton(
+                      highlightElevation: 1.0,
+                      elevation: 3.0,
+                      height: 75,
+                      color: Theme.of(context).primaryColor,
+                      child: Text(
+                        "Vpišite se",
+                        style: new TextStyle(
+                            fontSize: 35,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .fontFamily),
+                      ),
+                      onPressed: () => dispatchLogin()))
             ]));
   }
 
