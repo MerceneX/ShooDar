@@ -32,6 +32,8 @@ ThemeData lightTheme() {
       textTheme: ButtonTextTheme.primary,
     ),
 
+    buttonColor: primaryColor,
+
     primaryIconTheme: IconThemeData(
       color: primaryText,
     ),
