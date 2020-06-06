@@ -1,13 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
-
-import 'notification_dialog.dart';
 
 class Map extends StatefulWidget {
   final Set<Marker> radars;
@@ -39,12 +36,15 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    location.onLocationChanged.listen((LocationData cLoc) {
-      currentLocation = cLoc;
-      updatePinOnMap();
-      dispatchUpdateLocation(cLoc);
+    const period = const Duration(seconds:30);
+    new Timer.periodic(period, (Timer t) => {
+        location.onLocationChanged.listen((LocationData cLoc) {
+        currentLocation = cLoc;
+        updatePinOnMap();
+        dispatchUpdateLocation(cLoc);
+      })
     });
-
+    
     setInitialLocation();
   }
 
@@ -89,7 +89,7 @@ class _MapState extends State<Map> {
   }
 
   void dispatchUpdateLocation(LocationData loc){
-    BlocProvider.of<RadarBloc>(context) .add(LocationChangedEvent(loc));
+    BlocProvider.of<RadarBloc>(context).add(LocationChangedEvent(loc));
   }
 
   Future<void> _showMyDialog() async {

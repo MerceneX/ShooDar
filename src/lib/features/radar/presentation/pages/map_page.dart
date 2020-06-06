@@ -4,7 +4,6 @@ import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
 import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
-import 'package:vibration/vibration.dart';
 
 import '../../../../injection_container.dart';
 import '../widgets/map.dart';

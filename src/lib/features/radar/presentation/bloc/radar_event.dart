@@ -1,7 +1,5 @@
-import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
 abstract class RadarEvent extends Equatable {
@@ -28,7 +26,7 @@ class LoadMapEvent extends RadarEvent {
 }
 
 class LocationChangedEvent extends RadarEvent {
-  LocationData loc;
+  final LocationData loc;
   LocationChangedEvent(this.loc);
 
   @override
