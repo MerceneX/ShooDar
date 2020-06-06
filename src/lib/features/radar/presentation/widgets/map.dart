@@ -80,8 +80,6 @@ class _MapState extends State<Map> {
           initialCameraPosition: widget.intitalCameraPosition
       )
     );
-
-   
   }
 
   void _onMapCreated(GoogleMapController controller) {
