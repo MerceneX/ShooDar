@@ -1,7 +1,6 @@
-import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 abstract class RadarEvent extends Equatable {
   const RadarEvent();
@@ -27,11 +26,9 @@ class LoadMapEvent extends RadarEvent {
 }
 
 class LocationChangedEvent extends RadarEvent {
-  final Completer<GoogleMapController> controller; 
-  final Set<Marker> markers;
-
-  LocationChangedEvent(this.markers, this.controller);
+  final LocationData loc;
+  LocationChangedEvent(this.loc);
 
   @override
-  List<Object> get props => [controller];
+  List<Object> get props => [LocationChangedEvent(loc)];
 }

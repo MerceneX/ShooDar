@@ -51,4 +51,5 @@ class _BigAddRadarButtonState extends State<BigAddRadarButton> {
   void dispatchAdd() {
     BlocProvider.of<RadarBloc>(context).add(AddRadarEvent());
   }
+  
 }

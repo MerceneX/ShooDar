@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,13 +11,15 @@ class Map extends StatefulWidget {
   final UserLocation location;
   final Completer<GoogleMapController> controller;
   final CameraPosition intitalCameraPosition;
+  final bool radarIsClose;
 
   const Map(
       {Key key,
       @required this.radars,
       @required this.controller,
       @required this.intitalCameraPosition,
-      this.location})
+      this.location,
+      @required this.radarIsClose,})
       : super(key: key);
 
   @override
@@ -35,11 +36,15 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    location.onLocationChanged.listen((LocationData cLoc) {
-      currentLocation = cLoc;
-      updatePinOnMap();
+    const period = const Duration(seconds:30);
+    new Timer.periodic(period, (Timer t) => {
+        location.onLocationChanged.listen((LocationData cLoc) {
+        currentLocation = cLoc;
+        updatePinOnMap();
+        dispatchUpdateLocation(cLoc);
+      })
     });
-
+    
     setInitialLocation();
   }
 
@@ -62,22 +67,56 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
-        compassEnabled: true,
-        onMapCreated: _onMapCreated,
-        markers: widget.radars,
-        initialCameraPosition: widget.intitalCameraPosition);
+    if (widget.radarIsClose) {
+      _showMyDialog();
+    }
+    return Container(
+        child: GoogleMap(
+          myLocationButtonEnabled: true,
+          myLocationEnabled: true,
+          compassEnabled: true,
+          onMapCreated: _onMapCreated,
+          markers: widget.radars,
+          initialCameraPosition: widget.intitalCameraPosition
+      )
+    );
+
+   
   }
 
   void _onMapCreated(GoogleMapController controller) {
     widget.controller.complete(controller);
   }
 
-  void dispatchUpdateLocation(
-      Set<Marker> markers, Completer<GoogleMapController> controller) {
-    BlocProvider.of<RadarBloc>(context)
-        .add(LocationChangedEvent(markers, controller));
+  void dispatchUpdateLocation(LocationData loc){
+    BlocProvider.of<RadarBloc>(context).add(LocationChangedEvent(loc));
   }
+
+  Future<void> _showMyDialog() async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('AlertDialog Title'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('This is a demo alert dialog.'),
+              Text('Would you like to approve of this message?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Approve'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 }

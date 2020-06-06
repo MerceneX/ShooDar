@@ -27,7 +27,8 @@ Future<void> init() async {
     () => RadarBloc(
       add: sl(),
       getRadars: sl(),
-      getUserLocation: sl()
+      getUserLocation: sl(),
+      checkForRadars: sl()
     )
   );
   
