@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
 
 class LoginForm extends StatefulWidget {
+  final String emailError;
+  final String passwordError;
   const LoginForm({
     Key key,
+    this.emailError,
+    this.passwordError,
   }) : super(key: key);
 
   @override
@@ -41,7 +45,7 @@ class _LoginFormState extends State<LoginForm> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         hintText: 'E-Pošta',
-                        errorText: null,
+                        errorText: widget.emailError,
                         prefixIcon: Icon(
                           Icons.email,
                         )),
@@ -54,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
                 obscureText: _obscureText,
                 decoration: InputDecoration(
                     hintText: 'Geslo',
-                    errorText: null,
+                    errorText: widget.passwordError,
                     prefixIcon: Icon(
                       Icons.security,
                     ),

@@ -8,8 +8,8 @@ class RegisterForm extends StatefulWidget {
   final String passwordError;
   const RegisterForm({
     Key key,
-    @required this.emailError,
-    @required this.passwordError,
+    this.emailError,
+    this.passwordError,
   }) : super(key: key);
 
   @override
@@ -100,7 +100,6 @@ class _RegisterFormState extends State<RegisterForm> {
                       ),
                       onPressed: () {
                         dispatchRegister();
-                        _formKey.currentState.reset();
                       }))
             ]));
   }

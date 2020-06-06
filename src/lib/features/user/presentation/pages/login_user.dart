@@ -76,17 +76,16 @@ class LoginPage extends StatelessWidget {
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is InitialUserState) {
-                            return Container();
+                            return LoginForm();
                           } else if (state is AuthSuccess) {
                             MainMenuPage.isLocked = false;
                             return MessageDisplay(
                               message: 'LoggedIn',
                             );
                           } else if (state is LoginValidationErrorState) {
-                            return MessageDisplay(
-                              message:
-                                  state.emailError + "\n" + state.passwordError,
-                            );
+                            return LoginForm(
+                                emailError: state.emailError,
+                                passwordError: state.passwordError);
                           } else if (state is Error) {
                             return MessageDisplay(
                               message: state.message,
@@ -98,7 +97,6 @@ class LoginPage extends StatelessWidget {
                           }
                         },
                       ),
-                      LoginForm(),
                     ]))));
   }
 }

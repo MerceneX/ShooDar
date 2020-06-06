@@ -76,10 +76,7 @@ class RegisterPage extends StatelessWidget {
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state is InitialUserState) {
-                            return RegisterForm(
-                              emailError: null,
-                              passwordError: null,
-                            );
+                            return RegisterForm();
                           } else if (state is AuthSuccess) {
                             MainMenuPage.isLocked = false;
                             return MessageDisplay(
@@ -90,7 +87,7 @@ class RegisterPage extends StatelessWidget {
                             return RegisterForm(
                               emailError: state.emailError,
                               passwordError: state.passwordError,
-                            ); //+ "\n" + state.passwordError);
+                            );
                           } else if (state is Error) {
                             return MessageDisplay(
                               message: "Random err",
