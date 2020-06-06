@@ -92,8 +92,8 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
       bool radarClose = await checkForRadars(Params(userLocation: loc));
 
       if(radarClose) {
-         Vibration.vibrate();       
-         yield* _loadedState(markers, userLocation, controller, initialCameraPosition, radarClose);
+        //  Vibration.vibrate();       
+        //  yield* _loadedState(markers, userLocation, controller, initialCameraPosition, radarClose);
       }
     }
   }
