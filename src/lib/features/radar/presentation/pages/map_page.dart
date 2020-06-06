@@ -119,6 +119,8 @@ class MapPage extends StatelessWidget {
               controller: state.controller,
               intitalCameraPosition: state.initialCameraPosition,
               radarIsClose: state.radarIsClose);
+        } else {
+          return null;
         }
       }),
     );

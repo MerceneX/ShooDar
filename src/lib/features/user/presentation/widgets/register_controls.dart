@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
 
 class RegisterForm extends StatefulWidget {
+  final String emailError;
+  final String passwordError;
   const RegisterForm({
     Key key,
-    String emailError,
-    String passwordError,
+    @required this.emailError,
+    @required this.passwordError,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                         hintText: 'E-Pošta',
-                        errorText: null,
+                        errorText: widget.emailError,
                         prefixIcon: Icon(
                           Icons.email,
                         )),
@@ -56,7 +58,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 obscureText: _obscureText,
                 decoration: InputDecoration(
                     hintText: 'Geslo',
-                    errorText: null,
+                    errorText: widget.passwordError,
                     prefixIcon: Icon(
                       Icons.security,
                     ),
@@ -96,7 +98,10 @@ class _RegisterFormState extends State<RegisterForm> {
                                 .bodyText1
                                 .fontFamily),
                       ),
-                      onPressed: () => dispatchRegister()))
+                      onPressed: () {
+                        dispatchRegister();
+                        _formKey.currentState.reset();
+                      }))
             ]));
   }
 
