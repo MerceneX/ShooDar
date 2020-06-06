@@ -4,6 +4,7 @@ import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
 import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../../../injection_container.dart';
 import '../widgets/map.dart';
@@ -43,7 +44,7 @@ class MapPage extends StatelessWidget {
               height: MediaQuery.of(context).size.height * 0.2,
               child: FloatingActionButton(
                 onPressed: () {
-                  dispatchAdd(radarContext);
+                   dispatchAdd(radarContext);
                 },
                 child: Icon(
                   Icons.linked_camera,
@@ -68,7 +69,8 @@ class MapPage extends StatelessWidget {
               radars: state.radars,
               location: state.location,
               controller: state.controller,
-              intitalCameraPosition: state.initialCameraPosition);
+              intitalCameraPosition: state.initialCameraPosition,
+              radarIsClose: state.radarIsClose);
         }
       }),
     );
@@ -82,5 +84,4 @@ class MapPage extends StatelessWidget {
     BlocProvider.of<RadarBloc>(context).add(LoadMapEvent());
   }
 
-  
 }

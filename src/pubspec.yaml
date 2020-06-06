@@ -54,6 +54,8 @@ dependencies:
   location: ^3.0.0
   #latlon
   latlong: ^0.6.1
+  #vibration
+  vibration: ^1.4.0
 
 dev_dependencies:
   flutter_test:
