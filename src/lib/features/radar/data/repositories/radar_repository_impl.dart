@@ -10,6 +10,7 @@ import '../datasources/radar_data_source.dart';
 
 class RadarRepositoryImpl implements RadarRepository {
   final RadarDataSource radarDataSource;
+  static List<String> seenRadars = new List();
 
   RadarRepositoryImpl({
     @required this.radarDataSource,
@@ -63,8 +64,9 @@ class RadarRepositoryImpl implements RadarRepository {
         new LatLng(userLocation.latitude, userLocation.longitude),
         new LatLng(radar.latitude, radar.longitude));
 
-      if(meters < 500) {
-        close = true;     
+      if(meters < 200 && !RadarRepositoryImpl.seenRadars.contains(radar.id)) {
+        close = true;
+        seenRadars.add(radar.id);     
       }
     });
     return close;
