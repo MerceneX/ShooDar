@@ -63,7 +63,7 @@ class RadarRepositoryImpl implements RadarRepository {
         new LatLng(userLocation.latitude, userLocation.longitude),
         new LatLng(radar.latitude, radar.longitude));
 
-      if(meters < 300) {
+      if(meters < 500) {
         close = true;     
       }
     });

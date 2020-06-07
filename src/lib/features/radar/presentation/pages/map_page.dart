@@ -68,9 +68,9 @@ class MapPage extends StatelessWidget {
               radars: state.radars,
               location: state.location,
               controller: state.controller,
-              intitalCameraPosition: state.initialCameraPosition,
-              radarIsClose: state.radarIsClose);
-        }
+              intitalCameraPosition: state.initialCameraPosition
+              );
+        } 
       }),
     );
   }
@@ -82,5 +82,4 @@ class MapPage extends StatelessWidget {
   dispatchGetRadars(context) {
     BlocProvider.of<RadarBloc>(context).add(LoadMapEvent());
   }
-
 }

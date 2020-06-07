@@ -1,6 +1,6 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:location/location.dart';
+import 'package:flutter/material.dart';
 
 abstract class RadarEvent extends Equatable {
   const RadarEvent();
@@ -26,9 +26,9 @@ class LoadMapEvent extends RadarEvent {
 }
 
 class LocationChangedEvent extends RadarEvent {
-  final LocationData loc;
-  LocationChangedEvent(this.loc);
+  BuildContext context;
+  LocationChangedEvent(this.context);
 
   @override
-  List<Object> get props => [LocationChangedEvent(loc)];
+  List<Object> get props => [context];
 }

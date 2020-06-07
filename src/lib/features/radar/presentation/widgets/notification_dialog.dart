@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class NotifDialog extends StatelessWidget {
-  const NotifDialog({
+class RadarAlertDialog extends StatelessWidget {
+  const RadarAlertDialog({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
      return AlertDialog(
-        title: Text('AlertDialog Title'),
+        title: Text('Radar!'),
         content: SingleChildScrollView(
           child: ListBody(
             children: <Widget>[

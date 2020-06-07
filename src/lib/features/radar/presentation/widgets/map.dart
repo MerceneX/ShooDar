@@ -11,15 +11,14 @@ class Map extends StatefulWidget {
   final UserLocation location;
   final Completer<GoogleMapController> controller;
   final CameraPosition intitalCameraPosition;
-  final bool radarIsClose;
 
-  const Map(
-      {Key key,
+  const Map({
+      Key key,
       @required this.radars,
       @required this.controller,
       @required this.intitalCameraPosition,
-      this.location,
-      @required this.radarIsClose,})
+      this.location
+  })
       : super(key: key);
 
   @override
@@ -36,15 +35,16 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    const period = const Duration(seconds:30);
-    new Timer.periodic(period, (Timer t) => {
-        location.onLocationChanged.listen((LocationData cLoc) {
-        currentLocation = cLoc;
-        updatePinOnMap();
-        dispatchUpdateLocation(cLoc);
-      })
+    const period = const Duration(seconds:20);
+    new Timer.periodic(period, (Timer t) => { 
+      dispatchCheckIfRadarIsClose(context)
     });
     
+    location.onLocationChanged.listen((LocationData cLoc) {
+      currentLocation = cLoc;
+      updatePinOnMap();
+    });
+
     setInitialLocation();
   }
 
@@ -67,54 +67,21 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.radarIsClose) {
-      _showMyDialog();
-    }
-    return Container(
-        child: GoogleMap(
-          myLocationButtonEnabled: true,
-          myLocationEnabled: true,
-          compassEnabled: true,
-          onMapCreated: _onMapCreated,
-          markers: widget.radars,
-          initialCameraPosition: widget.intitalCameraPosition
-      )
-    );
+    return Container( 
+      child: GoogleMap(
+                myLocationButtonEnabled: true,
+                myLocationEnabled: true,
+                compassEnabled: true,
+                onMapCreated: _onMapCreated,
+                markers: widget.radars,
+                initialCameraPosition: widget.intitalCameraPosition));
   }
 
   void _onMapCreated(GoogleMapController controller) {
     widget.controller.complete(controller);
   }
 
-  void dispatchUpdateLocation(LocationData loc){
-    BlocProvider.of<RadarBloc>(context).add(LocationChangedEvent(loc));
+  void dispatchCheckIfRadarIsClose(BuildContext context) {
+    BlocProvider.of<RadarBloc>(context).add(LocationChangedEvent(context));
   }
-
-  Future<void> _showMyDialog() async {
-  return showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('AlertDialog Title'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Text('This is a demo alert dialog.'),
-              Text('Would you like to approve of this message?'),
-            ],
-          ),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Approve'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
-}
 }
