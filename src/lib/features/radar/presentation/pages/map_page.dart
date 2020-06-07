@@ -14,9 +14,6 @@ class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Zemljevid'),
-      ),
       body: Scaffold(
           body: buildBody(context),
           bottomNavigationBar: BottomNavigationBar(
@@ -42,8 +39,60 @@ class MapPage extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.5,
               height: MediaQuery.of(context).size.height * 0.2,
               child: FloatingActionButton(
-                onPressed: () {
-                   dispatchAdd(radarContext);
+                onPressed: () async {
+                  switch (await showDialog<int>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SimpleDialog(
+                          titlePadding: EdgeInsets.only(top: 25),
+                          backgroundColor:
+                              Theme.of(context).primaryColor.withOpacity(0.5),
+                          title: Center(
+                            child: Text('Dodam radar?',
+                                style: Theme.of(context).textTheme.headline2),
+                          ),
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                MaterialButton(
+                                  minWidth: 100,
+                                  height: 60,
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () {
+                                    Navigator.pop(context, 0);
+                                  },
+                                  child: Text(
+                                    'Ne',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                                MaterialButton(
+                                  minWidth: 100,
+                                  height: 60,
+                                  textTheme: ButtonTextTheme.primary,
+                                  color: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    Navigator.pop(context, 1);
+                                  },
+                                  child: Text(
+                                    'Da',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      })) {
+                    case 1:
+                      dispatchAdd(radarContext);
+                      break;
+                    case 0:
+                      break;
+                  }
                 },
                 child: Icon(
                   Icons.linked_camera,
@@ -70,7 +119,10 @@ class MapPage extends StatelessWidget {
               controller: state.controller,
               intitalCameraPosition: state.initialCameraPosition
               );
-        } 
+        }              
+        else {
+          return null;
+        }
       }),
     );
   }

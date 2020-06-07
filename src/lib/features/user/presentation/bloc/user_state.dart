@@ -17,7 +17,10 @@ class RegistrationValidationErrorState extends UserState {
   final String passwordError;
   RegistrationValidationErrorState({this.emailError, this.passwordError});
 
-  List<Object> get props => [];
+  List<Object> get props => [
+        emailError,
+        passwordError,
+      ];
 }
 
 class Error extends UserState {
@@ -32,5 +35,8 @@ class LoginValidationErrorState extends UserState {
   final String passwordError;
   LoginValidationErrorState({this.emailError, this.passwordError});
 
-  List<Object> get props => [];
+  List<Object> get props => [
+        emailError,
+        passwordError,
+      ];
 }

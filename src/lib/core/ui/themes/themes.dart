@@ -13,8 +13,30 @@ ThemeData lightTheme() {
     primaryColor: primaryColor,
     backgroundColor: bckgColor,
     accentColor: secColor,
+
+    inputDecorationTheme: InputDecorationTheme(
+      fillColor: primaryText,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      hintStyle: TextStyle(color: primaryText),
+    ),
     // Define the default font family.
     fontFamily: 'Georgia',
+
+    buttonTheme: ButtonThemeData(
+      splashColor: primaryColor,
+      highlightColor: secColor.withOpacity(0.75),
+      shape:
+          RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+      textTheme: ButtonTextTheme.primary,
+    ),
+
+    buttonColor: primaryColor,
+
+    primaryIconTheme: IconThemeData(
+      color: primaryText,
+    ),
 
     // Define the default TextTheme. Use this to specify the default
     // text styling for headlines, titles, bodies of text, and more.
