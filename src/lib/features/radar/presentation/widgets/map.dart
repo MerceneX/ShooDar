@@ -12,13 +12,12 @@ class Map extends StatefulWidget {
   final Completer<GoogleMapController> controller;
   final CameraPosition intitalCameraPosition;
 
-  const Map({
-      Key key,
+  const Map(
+      {Key key,
       @required this.radars,
       @required this.controller,
       @required this.intitalCameraPosition,
-      this.location
-  })
+      this.location})
       : super(key: key);
 
   @override
@@ -35,11 +34,10 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    const period = const Duration(seconds:20);
-    new Timer.periodic(period, (Timer t) => { 
-      dispatchCheckIfRadarIsClose(context)
-    });
-    
+    const period = const Duration(seconds: 20);
+    new Timer.periodic(
+        period, (Timer t) => {dispatchCheckIfRadarIsClose(context)});
+
     location.onLocationChanged.listen((LocationData cLoc) {
       currentLocation = cLoc;
       updatePinOnMap();
@@ -67,14 +65,14 @@ class _MapState extends State<Map> {
 
   @override
   Widget build(BuildContext context) {
-    return Container( 
-      child: GoogleMap(
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                compassEnabled: true,
-                onMapCreated: _onMapCreated,
-                markers: widget.radars,
-                initialCameraPosition: widget.intitalCameraPosition));
+    return Container(
+        child: GoogleMap(
+            zoomControlsEnabled: false,
+            myLocationEnabled: true,
+            compassEnabled: true,
+            onMapCreated: _onMapCreated,
+            markers: widget.radars,
+            initialCameraPosition: widget.intitalCameraPosition));
   }
 
   void _onMapCreated(GoogleMapController controller) {
