@@ -27,8 +27,8 @@ class GetAllRadars implements UseCase<void, NoParams> {
           markerId: MarkerId(radar.id),
           position: LatLng(radar.latitude, radar.longitude),
           infoWindow: InfoWindow(
-            title: 'Created at:',
-            snippet: "${transformTimeCreated(radar.timeCreated)} ago",
+            title: 'Ustvarjen:',
+            snippet: "pred ${transformTimeCreated(radar.timeCreated)}",
           ),
           icon: markerIcon
         ))    
@@ -53,7 +53,7 @@ String transformTimeCreated(DateTime timeCreated) {
   if (difference.inHours == 0 && difference.inMinutes != 0) {
     result = "${difference.inMinutes} min";  
   } else if (difference.inMinutes == 0) {
-    result = "less then a minute";
+    result = "manj kot minuto nazaj";
   } else {
     int min = difference.inHours * 60 - difference.inMinutes;
     result = "${difference.inHours} h $min min";

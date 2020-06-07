@@ -36,6 +36,7 @@ class RadarRepositoryImpl implements RadarRepository {
   @override
   Future<List<Radar>> getAllRadars() async {
     List<Radar> all = await radarDataSource.getAllRadars();
+    all = _checkForDelete(all);
     return all;
   }
 
@@ -52,6 +53,20 @@ class RadarRepositoryImpl implements RadarRepository {
     }
 
     return position;
+  }
+
+  List<Radar> _checkForDelete(List<Radar> radars) {
+    for (int i = 0; i < radars.length; i++) {
+      Radar radar = radars.elementAt(i);
+      DateTime now = DateTime.now();
+      Duration difference = now.difference(radar.timeCreated);
+
+      if(difference.inHours > 4) {
+          deleteRadar(radar.id);
+          radars.removeAt(i);
+      }
+    }
+    return radars;
   }
 
   @override
