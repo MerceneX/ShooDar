@@ -10,3 +10,12 @@ class UnlockEvent extends MainMenuEvent {
   @override
   List<Object> get props => [];
 }
+
+class ChangePageEvent extends MainMenuEvent {
+  final int page;
+
+  ChangePageEvent({this.page});
+
+  @override
+  List<Object> get props => [page];
+}

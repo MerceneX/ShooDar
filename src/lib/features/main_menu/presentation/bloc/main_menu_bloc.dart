@@ -5,9 +5,8 @@ import './bloc.dart';
 import 'main_menu_event.dart';
 
 class MainMenuBloc extends Bloc<MainMenuEvent, MainMenuState> {
-
   @override
-  MainMenuState get initialState => InitialMainMenuState();
+  MainMenuState get initialState => NavigationState(current: 1);
 
   @override
   Stream<MainMenuState> mapEventToState(
@@ -15,6 +14,8 @@ class MainMenuBloc extends Bloc<MainMenuEvent, MainMenuState> {
   ) async* {
     if (event is UnlockEvent) {
       yield Unlocked(locked: false);
+    } else if (event is ChangePageEvent) {
+      yield NavigationState(current: event.page);
     }
   }
 }
