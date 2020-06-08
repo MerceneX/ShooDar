@@ -94,7 +94,7 @@ class MainMenuPage extends StatelessWidget {
                       text: "Vpis",
                       onPressed: () => goLogin(context),
                     ),
-                    BlocBuilder<MainMenuBloc, MainMenuState>(
+                    /*BlocBuilder<MainMenuBloc, MainMenuState>(
                         builder: (context, state) {
                       if (isLocked == false) {
                         BlocProvider.of<MainMenuBloc>(context)
@@ -111,7 +111,7 @@ class MainMenuPage extends StatelessWidget {
                         );
                       }
                       return null;
-                    })
+                    })*/
                   ]))
         ]));
   }

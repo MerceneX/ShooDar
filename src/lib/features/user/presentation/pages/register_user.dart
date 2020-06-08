@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
+import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
 import 'package:shoodar/features/user/presentation/bloc/user_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/user/presentation/widgets/display_message.dart';
@@ -51,6 +52,9 @@ class RegisterPage extends StatelessWidget {
               buildBody(context)
             ],
           )),
+      bottomNavigationBar: BottomNavigation(
+        currentPage: 2,
+      ),
     );
   }
 

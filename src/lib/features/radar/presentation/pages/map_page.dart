@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
@@ -16,24 +17,8 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       body: Scaffold(
           body: buildBody(context),
-          bottomNavigationBar: BottomNavigationBar(
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                title: Text('Domov'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.map),
-                title: Text('Zemljevid'),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                title: Text('Nastavitve'),
-              ),
-            ],
-            currentIndex: 1,
-            selectedItemColor: Colors.amber[800],
-            onTap: null,
+          bottomNavigationBar: BottomNavigation(
+            currentPage: 1,
           ),
           floatingActionButton: Container(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -117,10 +102,8 @@ class MapPage extends StatelessWidget {
               radars: state.radars,
               location: state.location,
               controller: state.controller,
-              intitalCameraPosition: state.initialCameraPosition
-              );
-        }              
-        else {
+              intitalCameraPosition: state.initialCameraPosition);
+        } else {
           return null;
         }
       }),
