@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
+import 'package:shoodar/features/user/presentation/pages/login_user.dart';
 
 class RegisterForm extends StatefulWidget {
   final String emailError;
@@ -80,6 +81,28 @@ class _RegisterFormState extends State<RegisterForm> {
                 onSubmitted: (_) {
                   dispatchRegister();
                 },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Že imate račun?",
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText1.fontFamily,
+                      )),
+                  MaterialButton(
+                      padding: EdgeInsets.only(left: 5),
+                      child: Text("Vpišite se!",
+                          style: TextStyle(
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .fontFamily,
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                          )),
+                      onPressed: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LoginPage())))
+                ],
               ),
               Padding(
                   padding: EdgeInsets.only(top: 75),
