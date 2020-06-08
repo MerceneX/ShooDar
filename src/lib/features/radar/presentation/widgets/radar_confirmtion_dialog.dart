@@ -8,7 +8,7 @@ class RadarUserConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      titlePadding: EdgeInsets.only(top: 25),
+      titlePadding: EdgeInsets.all(10),
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
       title: Center(
         child:
