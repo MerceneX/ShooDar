@@ -7,7 +7,6 @@ import 'package:shoodar/features/user/domain/entities/user_location.dart';
 import '../../domain/repositories/radar_repository.dart';
 import '../datasources/radar_data_source.dart';
 
-
 class RadarRepositoryImpl implements RadarRepository {
   final RadarDataSource radarDataSource;
   static List<String> seenRadars = new List();
@@ -17,18 +16,19 @@ class RadarRepositoryImpl implements RadarRepository {
   });
 
   @override
-  Future<void> addRadarOnCurrentLocation() async { 
+  Future<void> addRadarOnCurrentLocation() async {
     Position coordinates = await _getCurrentLocation();
-    UserLocation userLocation = UserLocation(latitude: coordinates.latitude, longitude: coordinates.longitude);
+    UserLocation userLocation = UserLocation(
+        latitude: coordinates.latitude, longitude: coordinates.longitude);
 
-    bool close = await isRadarClose(userLocation);
-    
-    if(!close) {
+    bool close = await isRadarClose(userLocation, isNew:true);
+
+    if (!close) {
       Radar radar = new Radar(
-        timeCreated: DateTime.now(), 
-        latitude: coordinates.latitude, 
-        longitude: coordinates.longitude);
-      
+          timeCreated: DateTime.now(),
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude);
+
       radarDataSource.addRadar(radar);
     }
   }
@@ -46,10 +46,12 @@ class RadarRepositoryImpl implements RadarRepository {
   }
 
   Future<Position> _getCurrentLocation() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
 
-    if(position == null) {
-      position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    if (position == null) {
+      position = await Geolocator()
+          .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     }
 
     return position;
@@ -61,29 +63,30 @@ class RadarRepositoryImpl implements RadarRepository {
       DateTime now = DateTime.now();
       Duration difference = now.difference(radar.timeCreated);
 
-      if(difference.inHours > 4) {
-          deleteRadar(radar.id);
-          radars.removeAt(i);
+      if (difference.inHours > 4) {
+        deleteRadar(radar.id);
+        radars.removeAt(i);
       }
     }
     return radars;
   }
 
   @override
-  Future<bool> isRadarClose(UserLocation userLocation) async {   
+  Future<bool> isRadarClose(UserLocation userLocation, {bool isNew = false}) async {
     List<Radar> radars = await getAllRadars();
-    bool close = false; 
+    bool close = false;
     radars.forEach((Radar radar) {
       Distance distance = new Distance();
-      final double meters = distance.as(LengthUnit.Meter,
-        new LatLng(userLocation.latitude, userLocation.longitude),
-        new LatLng(radar.latitude, radar.longitude));
+      final double meters = distance.as(
+          LengthUnit.Meter,
+          new LatLng(userLocation.latitude, userLocation.longitude),
+          new LatLng(radar.latitude, radar.longitude));
 
-      if(meters < 200 && !RadarRepositoryImpl.seenRadars.contains(radar.id)) {
+      if (meters < 200 && (isNew || !RadarRepositoryImpl.seenRadars.contains(radar.id))) {
         close = true;
-        seenRadars.add(radar.id);     
+        seenRadars.add(radar.id);
       }
     });
     return close;
-  }  
+  }
 }
