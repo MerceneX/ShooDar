@@ -12,6 +12,8 @@ class AuthSuccess extends UserState {
   List<Object> get props => [];
 }
 
+class InProgressState extends UserState {}
+
 class RegistrationValidationErrorState extends UserState {
   final String emailError;
   final String passwordError;
