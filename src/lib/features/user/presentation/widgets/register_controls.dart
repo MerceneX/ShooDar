@@ -7,11 +7,10 @@ import 'package:shoodar/features/user/presentation/pages/login_user.dart';
 class RegisterForm extends StatefulWidget {
   final String emailError;
   final String passwordError;
-  const RegisterForm({
-    Key key,
-    this.emailError,
-    this.passwordError,
-  }) : super(key: key);
+  final String firebaseError;
+  const RegisterForm(
+      {Key key, this.emailError, this.passwordError, this.firebaseError})
+      : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -104,6 +103,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           MaterialPageRoute(builder: (context) => LoginPage())))
                 ],
               ),
+              firebaseErrors(),
               Padding(
                   padding: EdgeInsets.only(top: 75),
                   child: MaterialButton(
@@ -130,6 +130,22 @@ class _RegisterFormState extends State<RegisterForm> {
   void dispatchRegister() {
     BlocProvider.of<UserBloc>(context)
         .add(RegisterUserEvent(username, password));
+  }
+
+  Widget firebaseErrors() {
+    if (widget.firebaseError != null && widget.firebaseError != "") {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(widget.firebaseError,
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
+              )),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 
   void _toggle() {

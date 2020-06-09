@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:shoodar/core/error/errorToSlovene.dart';
 import 'package:shoodar/core/error/failure.dart';
 import 'package:shoodar/core/validators/validators.dart';
 import 'package:shoodar/features/user/domain/usecases/login_user.dart';
@@ -28,7 +29,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     UserEvent event,
   ) async* {
     if (event is RegisterUserEvent) {
-      final validateOrFail = validateRegistration(event.email, event.password);
+      yield InProgressState();
+      final validateOrFail = _validateRegistration(event.email, event.password);
       yield* validateOrFail.fold((l) async* {
         yield l;
       }, (r) async* {
@@ -37,7 +39,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         yield* _eitherSuccessOrErrorState(failureOrSucces);
       });
     } else if (event is LoginUserEvent) {
-      final validateOrFail = validateLogin(event.email, event.password);
+      yield InProgressState();
+      final validateOrFail = _validateLogin(event.email, event.password);
       yield* validateOrFail.fold((l) async* {
         yield l;
       }, (r) async* {
@@ -52,12 +55,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     Either<Failure, bool> failureOrSuccess,
   ) async* {
     yield failureOrSuccess.fold(
-      (failure) => Error(message: failure.message),
+      (failure) => Error(message: mapFirebaseErrorToSlovene(failure.message)),
       (success) => AuthSuccess(),
     );
   }
 
-  Either<RegistrationValidationErrorState, bool> validateRegistration(
+  Either<RegistrationValidationErrorState, bool> _validateRegistration(
       email, password) {
     final emailOrFail = emailValidator(email);
     var emailErrorMessage =
@@ -73,7 +76,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }
   }
 
-  Either<LoginValidationErrorState, bool> validateLogin(email, password) {
+  Either<LoginValidationErrorState, bool> _validateLogin(email, password) {
     final emailOrFail = emptyInputValidator(email);
     var emailErrorMessage =
         emailOrFail.fold((l) => _mapErrorToMessage(l), (r) => null);
