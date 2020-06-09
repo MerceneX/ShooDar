@@ -1,5 +1,6 @@
 import 'package:latlong/latlong.dart';
 import 'package:meta/meta.dart';
+import 'package:shoodar/features/radar/data/datasources/shared_preferences_datasource_radar.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
@@ -9,10 +10,12 @@ import '../datasources/radar_data_source.dart';
 
 class RadarRepositoryImpl implements RadarRepository {
   final RadarDataSource radarDataSource;
+  final RadarSharedPreferencesDataSource radarSharedPreferencesDataSource;
   static List<String> seenRadars = new List();
 
   RadarRepositoryImpl({
     @required this.radarDataSource,
+    @required this.radarSharedPreferencesDataSource,
   });
 
   @override
@@ -28,8 +31,10 @@ class RadarRepositoryImpl implements RadarRepository {
           timeCreated: DateTime.now(),
           latitude: coordinates.latitude,
           longitude: coordinates.longitude);
+      
+      var uid = await radarSharedPreferencesDataSource.getUid();
 
-      radarDataSource.addRadar(radar);
+      radarDataSource.addRadar(radar, uid);
     }
   }
 
@@ -88,5 +93,12 @@ class RadarRepositoryImpl implements RadarRepository {
       }
     });
     return close;
+  }
+
+  @override
+  Future<bool> isUserLoggedInRadar() async {
+   var uid = await radarSharedPreferencesDataSource.getUid();
+    if(uid.toString() == "null") return false;
+    else return true;
   }
 }

@@ -18,11 +18,12 @@ class Loaded extends RadarState {
   final UserLocation location;
   final Completer<GoogleMapController> controller;
   final CameraPosition initialCameraPosition;
+  final bool isUserLoggedIn;
 
-  Loaded(this.radars, this.location, this.controller, this.initialCameraPosition);
+  Loaded(this.radars, this.location, this.controller, this.initialCameraPosition, this.isUserLoggedIn);
 
   @override
-  List<Object> get props => [radars, location, controller];
+  List<Object> get props => [radars, location, controller, isUserLoggedIn];
 }
 
 class RadarIsClose extends RadarState {

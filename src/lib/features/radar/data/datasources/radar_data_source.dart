@@ -1,10 +1,8 @@
-import 'package:shoodar/core/usersState/usersState.dart';
-
 import '../../domain/entitites/radar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class RadarDataSource {
-  void addRadar(Radar radar);
+  void addRadar(Radar radar, String uid);
   Future<List<Radar>> getAllRadars();
   Future<void> deleteRadar(String id);
 
@@ -14,11 +12,11 @@ class RadarDataSourceImpl implements RadarDataSource {
   final databaseRef = Firestore.instance;
 
   @override
-  void addRadar(Radar radar) async {
+  void addRadar(Radar radar, String uid) async {
     await databaseRef.collection("radars").add({
           'timeCreated': new DateTime.now(),
           'location': new GeoPoint(radar.latitude, radar.longitude),
-          'userUid': UsersState.uid
+          'userUid': uid
     });
   }
 
