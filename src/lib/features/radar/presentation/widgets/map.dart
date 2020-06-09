@@ -36,7 +36,11 @@ class _MapState extends State<Map> {
 
     const period = const Duration(seconds: 20);
     new Timer.periodic(
-        period, (Timer t) => {dispatchCheckIfRadarIsClose(context)});
+        period, (Timer t) => {
+          if (context != null) {
+            dispatchCheckIfRadarIsClose(context)
+          }
+        });
 
     location.onLocationChanged.listen((LocationData cLoc) {
       currentLocation = cLoc;
