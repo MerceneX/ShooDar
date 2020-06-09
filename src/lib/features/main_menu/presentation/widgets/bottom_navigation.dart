@@ -49,21 +49,18 @@ class _BottomNavigationState extends State<BottomNavigation> {
     //BlocProvider.of<MainMenuBloc>(context).add(ChangePageEvent(page: page));
     switch (page) {
       case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MainMenuPage()),
+        Navigator.of(context).pushReplacementNamed(
+          '/menu',
         );
         break;
       case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MapPage()),
+        Navigator.of(context).pushReplacementNamed(
+          '/map',
         );
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
+        Navigator.of(context).pushReplacementNamed(
+          '/login',
         );
         break;
       default:
