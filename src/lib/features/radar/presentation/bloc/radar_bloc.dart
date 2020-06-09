@@ -73,7 +73,7 @@ class RadarBloc extends Bloc<RadarEvent, RadarState>{
 
       yield* _loadedState(markers, userLocation, controller, initialCameraPosition);
       
-    } else if(event is LocationChangedEvent) { print("asdsdsa: "+appState.appCurrentState.toString());
+    } else if(event is LocationChangedEvent) {
       Completer<GoogleMapController> controller = Completer();
 
       Set<Marker> markers = await getRadars(NoParams());

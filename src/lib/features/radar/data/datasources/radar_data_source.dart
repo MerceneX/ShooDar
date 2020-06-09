@@ -1,3 +1,5 @@
+import 'package:shoodar/core/usersState/usersState.dart';
+
 import '../../domain/entitites/radar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,7 +17,8 @@ class RadarDataSourceImpl implements RadarDataSource {
   void addRadar(Radar radar) async {
     await databaseRef.collection("radars").add({
           'timeCreated': new DateTime.now(),
-          'location': new GeoPoint(radar.latitude, radar.longitude)
+          'location': new GeoPoint(radar.latitude, radar.longitude),
+          'userUid': UsersState.uid
     });
   }
 

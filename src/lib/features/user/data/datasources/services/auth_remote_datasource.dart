@@ -18,6 +18,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if(user != null){
         UsersState.signedIn = true;
+        UsersState.uid = user.user.uid.toString();
         return true;   
       }
       else{
@@ -35,6 +36,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if(authResult != null){
         UsersState.signedIn = true;
+        UsersState.uid = authResult.user.uid.toString();
         return true;
       }
       else{

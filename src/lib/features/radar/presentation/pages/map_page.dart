@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoodar/core/usersState/usersState.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
 import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
 import 'package:shoodar/features/radar/presentation/widgets/radar_confirmtion_dialog.dart';
+import 'package:shoodar/features/radar/presentation/widgets/login_first_dialog.dart';
 
 import '../../../../injection_container.dart';
 import '../widgets/map.dart';
@@ -68,16 +70,26 @@ class MapPage extends StatelessWidget {
   }
 
   void getUserConfirmation(BuildContext context) async {
-    switch (await showDialog<int>(
-        context: context,
-        builder: (BuildContext context) {
-          return RadarUserConfirmationDialog();
-        })) {
-      case 1:
-        dispatchAdd(radarContext);
-        break;
-      case 0:
-        break;
+    if(UsersState.signedIn == true){
+      switch (await showDialog<int>(
+          context: context,
+          builder: (BuildContext context) {
+            return RadarUserConfirmationDialog();
+          })) {
+        case 1:
+          dispatchAdd(radarContext);
+          break;
+        case 0:
+          break;
+      }
+    }
+    else{
+       await showDialog<int>(
+          context: context,
+          builder: (BuildContext context) {
+            return LoginFirstDialog();
+          }
+        );
     }
   }
 }
