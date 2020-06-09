@@ -12,7 +12,10 @@ import 'package:shoodar/injection_container.dart';
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainMenuPage()),
+    ),
+      child:  Scaffold(
       body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -55,7 +58,7 @@ class LoginPage extends StatelessWidget {
       bottomNavigationBar: BottomNavigation(
         currentPage: 2,
       ),
-    );
+    ));
   }
 
   BlocProvider<UserBloc> buildBody(BuildContext context) {
@@ -82,7 +85,6 @@ class LoginPage extends StatelessWidget {
                           if (state is InitialUserState) {
                             return LoginForm();
                           } else if (state is AuthSuccess) {
-                            MainMenuPage.isLocked = false;
                             return MessageDisplay(
                               message: 'LoggedIn',
                             );

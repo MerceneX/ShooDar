@@ -13,7 +13,9 @@ class MainMenuBloc extends Bloc<MainMenuEvent, MainMenuState> {
     MainMenuEvent event,
   ) async* {
     if (event is UnlockEvent) {
-      yield Unlocked(locked: false);
+      yield Unlocked();
+    }if (event is LockEvent) {
+      yield Locked();
     } else if (event is ChangePageEvent) {
       yield NavigationState(current: event.page);
     }

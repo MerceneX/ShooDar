@@ -12,7 +12,10 @@ import '../../../../injection_container.dart';
 class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainMenuPage()),
+    ),
+      child:  Scaffold(
       body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -55,7 +58,7 @@ class RegisterPage extends StatelessWidget {
       bottomNavigationBar: BottomNavigation(
         currentPage: 2,
       ),
-    );
+    ));
   }
 
   BlocProvider<UserBloc> buildBody(BuildContext context) {
@@ -82,7 +85,6 @@ class RegisterPage extends StatelessWidget {
                           if (state is InitialUserState) {
                             return RegisterForm();
                           } else if (state is AuthSuccess) {
-                            MainMenuPage.isLocked = false;
                             return MessageDisplay(
                               message: 'Registered',
                             );

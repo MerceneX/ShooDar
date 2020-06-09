@@ -11,6 +11,13 @@ class UnlockEvent extends MainMenuEvent {
   List<Object> get props => [];
 }
 
+class LockEvent extends MainMenuEvent {
+  LockEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 class ChangePageEvent extends MainMenuEvent {
   final int page;
 

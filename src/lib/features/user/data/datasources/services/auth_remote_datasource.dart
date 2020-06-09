@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoodar/core/error/exception.dart';
+import 'package:shoodar/core/usersState/usersState.dart';
 
 abstract class AuthRemoteDataSource {
   Future<bool> loginUser(String email, String password);
@@ -14,8 +15,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<bool> loginUser(String email, String password) async {
     try {
       var user = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      
       if(user != null){
-        return true;
+        UsersState.signedIn = true;
+        return true;   
       }
       else{
         throw LoginException("Registration failed!");
@@ -29,7 +32,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<bool> registerUser(String email, String password) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      
       if(authResult != null){
+        UsersState.signedIn = true;
         return true;
       }
       else{

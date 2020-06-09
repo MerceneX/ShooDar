@@ -5,13 +5,16 @@ abstract class MainMenuState extends Equatable {
   List<Object> get props => [];
 }
 
-class InitialMainMenuState extends MainMenuState {}
-
 class Unlocked extends MainMenuState {
-  final bool locked;
 
-  Unlocked({this.locked});
-  List<Object> get props => [locked];
+  Unlocked();
+  List<Object> get props => [];
+}
+
+class Locked extends MainMenuState {
+
+  Locked();
+  List<Object> get props => [];
 }
 
 class NavigationState extends MainMenuState {

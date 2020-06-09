@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/bloc/main_menu_bloc.dart';
@@ -6,27 +8,43 @@ import 'package:shoodar/features/main_menu/presentation/bloc/main_menu_state.dar
 import 'package:shoodar/features/main_menu/presentation/widgets/display_message.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/main_menuItem.dart';
 import 'package:shoodar/features/radar/presentation/pages/simple_mode_page.dart';
+import 'package:shoodar/features/main_menu/presentation/pages/log_out_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
 import 'package:shoodar/features/user/presentation/pages/login_user.dart';
 import 'package:shoodar/features/user/presentation/pages/register_user.dart';
 import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
-
+import '../../../../core/usersState/usersState.dart';
 import 'package:toast/toast.dart';
-
 import '../../../../injection_container.dart';
 
 class MainMenuPage extends StatelessWidget {
-  static bool isLocked = true;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () => showDialog(
+      context: context,
+      builder: (context)=>AlertDialog(
+        title: Text("Do you want to exit app?"),
+        actions: <Widget>[
+          FlatButton(
+            child: Text("No"),
+            onPressed: ()=>Navigator.pop(context, false),
+          ),
+          FlatButton(
+            child: Text("Yes"),
+            onPressed: ()=>exit(0),
+         )],
+       )
+      ),
+      child: Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         child: buildBody(context),
       ),
-    );
+    ),
+   );
   }
+
 
   BlocProvider<MainMenuBloc> buildBody(BuildContext context) {
     return BlocProvider(
@@ -87,6 +105,10 @@ class MainMenuPage extends StatelessWidget {
                       onPressed: () => showToast(context),
                     ),
                     MainMenuItem(
+                      text: "Odjava",
+                      onPressed: () => goLogOut(context),
+                    ),
+                    MainMenuItem(
                       text: "Registacija",
                       onPressed: () => goRegister(context),
                     ),
@@ -94,24 +116,29 @@ class MainMenuPage extends StatelessWidget {
                       text: "Vpis",
                       onPressed: () => goLogin(context),
                     ),
-                    /*BlocBuilder<MainMenuBloc, MainMenuState>(
+                    BlocBuilder<MainMenuBloc, MainMenuState>(
                         builder: (context, state) {
-                      if (isLocked == false) {
-                        BlocProvider.of<MainMenuBloc>(context)
-                            .add(UnlockEvent());
-                        return null;
+                      if (UsersState.signedIn == true) {
+                        BlocProvider.of<MainMenuBloc>(context).add(UnlockEvent());
                       }
-                      if (state is InitialMainMenuState) {
+                      if (UsersState.signedIn == false) {
+                        BlocProvider.of<MainMenuBloc>(context).add(LockEvent());
+                      }
+                      if (state is NavigationState) {
                         return MessageDisplay(
-                          locked: false,
+                          loggedIn: false,
                         );
                       } else if (state is Unlocked) {
                         return MessageDisplay(
-                          locked: true,
+                          loggedIn: true,
                         );
                       }
-                      return null;
-                    })*/
+                      else if (state is Locked) {
+                        return MessageDisplay(
+                          loggedIn: false,
+                        );
+                      }
+                    })
                   ]))
         ]));
   }
@@ -132,6 +159,15 @@ class MainMenuPage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => AdvancedModePage()),
+    );
+  }
+
+  void goLogOut(BuildContext context) {
+    UsersState.signedIn = false;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LogOutPage()),
     );
   }
 

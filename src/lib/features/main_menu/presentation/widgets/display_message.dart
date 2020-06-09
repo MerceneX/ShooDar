@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MessageDisplay extends StatelessWidget {
-  final bool locked;
+  final bool loggedIn;
 
   const MessageDisplay({
     Key key,
-    @required this.locked,
+    @required this.loggedIn,
   }) : super(key: key);
 
   @override
@@ -13,13 +13,13 @@ class MessageDisplay extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height / 3,
       child: Center(
-        child: SingleChildScrollView(
+       
           child: Text(
-            "Logged in: " + locked.toString(),
+            "Logged in: " + loggedIn.toString(),
             style: TextStyle(fontSize: 25),
             textAlign: TextAlign.center,
           ),
-        ),
+      
       ),
     );
   }
