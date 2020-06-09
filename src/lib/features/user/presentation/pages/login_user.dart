@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
+import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
 import 'package:shoodar/features/user/presentation/bloc/user_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/user_state.dart';
 import 'package:shoodar/features/user/presentation/widgets/display_message.dart';
@@ -13,52 +14,54 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MainMenuPage()),
-    ),
-      child:  Scaffold(
-      body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment(0, 1.7),
-              colors: <Color>[
-                Theme.of(context).primaryColor,
-                Theme.of(context).accentColor,
-              ],
+        onWillPop: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MainMenuPage()),
             ),
-          ),
-          child: ListView(
-            padding:
-                EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.2),
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.only(top: 5, bottom: 5),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment(0.5, 7),
-                    colors: <Color>[
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
-                    ],
-                  ),
-                ),
-                child: Container(
-                    child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text('ShooDar',
-                        style: Theme.of(context).textTheme.headline1),
+        child: Scaffold(
+          body: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment(0, 1.7),
+                  colors: <Color>[
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).accentColor,
                   ],
-                )),
+                ),
               ),
-              buildBody(context)
-            ],
-          )),
-      bottomNavigationBar: BottomNavigation(
-        currentPage: 2,
-      ),
-    ));
+              child: ListView(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.2),
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment(0.5, 7),
+                        colors: <Color>[
+                          Theme.of(context).primaryColor,
+                          Theme.of(context).accentColor,
+                        ],
+                      ),
+                    ),
+                    child: Container(
+                        child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('ShooDar',
+                            style: Theme.of(context).textTheme.headline1),
+                      ],
+                    )),
+                  ),
+                  buildBody(context)
+                ],
+              )),
+          bottomNavigationBar: BottomNavigation(
+            currentPage: 2,
+          ),
+        ));
   }
 
   BlocProvider<UserBloc> buildBody(BuildContext context) {
@@ -84,17 +87,23 @@ class LoginPage extends StatelessWidget {
                         builder: (context, state) {
                           if (state is InitialUserState) {
                             return LoginForm();
+                          } else if (state is InProgressState) {
+                            return LoadingWidget();
                           } else if (state is AuthSuccess) {
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((timeStamp) {
+                              _redirect(context);
+                            });
                             return MessageDisplay(
-                              message: 'LoggedIn',
+                              message: 'Prijava uspešna',
                             );
                           } else if (state is LoginValidationErrorState) {
                             return LoginForm(
                                 emailError: state.emailError,
                                 passwordError: state.passwordError);
                           } else if (state is Error) {
-                            return MessageDisplay(
-                              message: state.message,
+                            return LoginForm(
+                              firebaseError: state.message,
                             );
                           } else {
                             return MessageDisplay(
@@ -104,5 +113,11 @@ class LoginPage extends StatelessWidget {
                         },
                       ),
                     ]))));
+  }
+
+  _redirect(BuildContext context) async {
+    await Navigator.of(context).pushReplacementNamed(
+      '/map',
+    );
   }
 }
