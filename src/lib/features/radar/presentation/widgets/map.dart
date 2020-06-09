@@ -59,8 +59,10 @@ class _MapState extends State<Map> {
     );
 
     final GoogleMapController controller = await widget.controller.future;
-
-    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+   
+    if(context != null) {
+      controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
+    }
   }
 
   @override
