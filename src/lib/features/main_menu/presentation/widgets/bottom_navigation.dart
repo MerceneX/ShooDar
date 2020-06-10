@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
-import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
-import 'package:shoodar/features/user/presentation/pages/login_user.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shoodar/features/main_menu/presentation/bloc/bloc.dart';
+
+import '../../../../injection_container.dart';
 
 class BottomNavigation extends StatefulWidget {
   final int currentPage;
@@ -17,6 +18,39 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
   @override
   Widget build(BuildContext context) {
+    return buildBody(context);
+  }
+
+  BottomNavigationBar loggedInBottomNavigation(BuildContext context) {
+    return BottomNavigationBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          title: Text('Domov'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.map),
+          title: Text('Zemljevid'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.exit_to_app),
+          title: Text('Izpis'),
+        ),
+      ],
+      currentIndex: widget.currentPage,
+      selectedItemColor: Theme.of(context).textTheme.headline1.color,
+      unselectedItemColor:
+          Theme.of(context).textTheme.headline1.color.withOpacity(0.5),
+      onTap: (int page) {
+        if (page != widget.currentPage) {
+          changePage(page, context, true);
+        }
+      },
+    );
+  }
+
+  BottomNavigationBar loggedOutBottomNavigation(BuildContext context) {
     return BottomNavigationBar(
       backgroundColor: Theme.of(context).primaryColor,
       items: const <BottomNavigationBarItem>[
@@ -39,13 +73,36 @@ class _BottomNavigationState extends State<BottomNavigation> {
           Theme.of(context).textTheme.headline1.color.withOpacity(0.5),
       onTap: (int page) {
         if (page != widget.currentPage) {
-          changePage(page, context);
+          changePage(page, context, false);
         }
       },
     );
   }
 
-  void changePage(int page, BuildContext context) {
+  BlocProvider<MainMenuBloc> buildBody(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<MainMenuBloc>(),
+      child:
+          BlocBuilder<MainMenuBloc, MainMenuState>(builder: (context, state) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          dispatchLoginCheck(context);
+        });
+        if (state is LoggedIn) {
+          return loggedInBottomNavigation(context);
+        } else if (state is LoggedOut) {
+          return loggedOutBottomNavigation(context);
+        } else {
+          return loggedOutBottomNavigation(context);
+        }
+      }),
+    );
+  }
+
+  void dispatchLoginCheck(BuildContext context) {
+    BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
+  }
+
+  void changePage(int page, BuildContext context, bool loggedIn) {
     //BlocProvider.of<MainMenuBloc>(context).add(ChangePageEvent(page: page));
     switch (page) {
       case 0:
@@ -59,9 +116,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
         );
         break;
       case 2:
-        Navigator.of(context).pushReplacementNamed(
-          '/login',
-        );
+        if (loggedIn) {
+          BlocProvider.of<MainMenuBloc>(context).add(LogOutEvent());
+          BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
+        } else {
+          Navigator.of(context).pushReplacementNamed(
+            '/login',
+          );
+        }
         break;
       default:
     }
