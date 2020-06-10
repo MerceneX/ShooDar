@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      showInfoFlushbar(context);
+    });
     return Form(
         key: _formKey,
         child: Column(
@@ -103,7 +107,6 @@ class _RegisterFormState extends State<RegisterForm> {
                           MaterialPageRoute(builder: (context) => LoginPage())))
                 ],
               ),
-              firebaseErrors(),
               Padding(
                   padding: EdgeInsets.only(top: 75),
                   child: MaterialButton(
@@ -132,20 +135,21 @@ class _RegisterFormState extends State<RegisterForm> {
         .add(RegisterUserEvent(username, password));
   }
 
-  Widget firebaseErrors() {
+  void showInfoFlushbar(BuildContext context) {
     if (widget.firebaseError != null && widget.firebaseError != "") {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.red),
+      Flushbar(
+        messageText: Text(
+          widget.firebaseError,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.all(5),
-        child: Text(widget.firebaseError,
-            style: Theme.of(context).textTheme.bodyText1),
-      );
-    } else {
-      return Container();
+        icon: Icon(
+          Icons.error_outline,
+          size: 28,
+          color: Colors.red.shade300,
+        ),
+        leftBarIndicatorColor: Colors.red.shade300,
+        duration: Duration(seconds: 30),
+      )..show(context);
     }
   }
 

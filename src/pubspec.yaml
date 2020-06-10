@@ -59,6 +59,8 @@ dependencies:
   vibration: ^1.4.0
   #audio
   audioplayers: ^0.15.1
+  #flushbar
+  flushbar: ^1.5.0
 
 dev_dependencies:
   flutter_test:
