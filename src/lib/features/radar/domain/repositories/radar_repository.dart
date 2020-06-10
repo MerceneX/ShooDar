@@ -8,4 +8,5 @@ abstract class RadarRepository {
   Future<void> deleteRadar(String id);
   Future<bool> isRadarClose(UserLocation userLocation);
   Future<bool> isUserLoggedInRadar();
+  Future<List<Radar>> getRadarsById();
 }

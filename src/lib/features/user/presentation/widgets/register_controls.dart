@@ -8,6 +8,7 @@ class RegisterForm extends StatefulWidget {
   final String emailError;
   final String passwordError;
   final String firebaseError;
+
   const RegisterForm(
       {Key key, this.emailError, this.passwordError, this.firebaseError})
       : super(key: key);

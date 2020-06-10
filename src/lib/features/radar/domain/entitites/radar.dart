@@ -8,14 +8,22 @@ class Radar {
   final double latitude;
   final double longitude;
   final bool isSeen;
+  final String userId;
+  final String address;
+  final String administrativeArea;
+  final bool isActive;
 
   Radar({
     @required this.timeCreated,
     @required this.latitude,
     @required this.longitude,
+    @required this.userId,
     this.timeDeleted,
     this.id,
-    this.isSeen = false
+    this.isSeen = false,
+    this.address,
+    this.administrativeArea,
+    this.isActive = false
   });
 
 }

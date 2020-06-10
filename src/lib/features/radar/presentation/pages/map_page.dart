@@ -51,7 +51,7 @@ class MapPage extends StatelessWidget {
           radarContext = context;
           isUserLoggedIn = state.isUserLoggedIn;
           return Map(
-              radars: state.radars,
+              radars: state.markers,
               location: state.location,
               controller: state.controller,
               intitalCameraPosition: state.initialCameraPosition);

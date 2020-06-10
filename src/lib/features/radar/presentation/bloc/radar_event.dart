@@ -25,6 +25,22 @@ class LoadMapEvent extends RadarEvent {
   List<Object> get props => [];
 }
 
+class GetRadarsEvent extends RadarEvent {
+  GetRadarsEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class DeleteRadarsEvent extends RadarEvent {
+  String id;
+
+  DeleteRadarsEvent(this.id);
+
+  @override
+  List<Object> get props => [id];
+}
+
 class LocationChangedEvent extends RadarEvent {
   BuildContext context;
   LocationChangedEvent(this.context);

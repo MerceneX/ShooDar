@@ -6,10 +6,10 @@ import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import '../../domain/repositories/radar_repository.dart';
 import '../../../../core/usecases/usecase.dart';
 
-class GetAllRadars implements UseCase<void, NoParams> {
+class GetMarkers implements UseCase<void, NoParams> {
   final RadarRepository radarRepository;
 
-  GetAllRadars(this.radarRepository);
+  GetMarkers(this.radarRepository);
 
   @override
   Future<Set<Marker>> call(NoParams params) async {

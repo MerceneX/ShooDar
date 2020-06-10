@@ -13,29 +13,28 @@ class MainMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => showDialog(
-      context: context,
-      builder: (context)=>AlertDialog(
-        title: Text("Do you want to exit app?"),
-        actions: <Widget>[
-          FlatButton(
-            child: Text("No"),
-            onPressed: ()=>Navigator.pop(context, false),
-          ),
-          FlatButton(
-            child: Text("Yes"),
-            onPressed: ()=>exit(0),
-         )],
-       )
-      ),
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text("Do you want to exit app?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("No"),
+                    onPressed: () => Navigator.pop(context, false),
+                  ),
+                  FlatButton(
+                    child: Text("Yes"),
+                    onPressed: () => exit(0),
+                  )
+                ],
+              )),
       child: Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SingleChildScrollView(
-        child: buildBody(context),
+        backgroundColor: Theme.of(context).primaryColor,
+        body: SingleChildScrollView(
+          child: buildBody(context),
+        ),
       ),
-    ),
-   );
+    );
   }
-
 
   BlocProvider<MainMenuBloc> buildBody(BuildContext context) {
     return BlocProvider(
@@ -71,20 +70,19 @@ class MainMenuPage extends StatelessWidget {
                     topLeft: Radius.circular(100.0),
                     bottomRight: Radius.circular(50)),
               ),
-              child: 
-                    BlocBuilder<MainMenuBloc, MainMenuState>(
-                        builder: (context, state) {
-                      BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
-                      if (state is NavigationState) {                                               
-                        return MenuItems(loggedIn: false);
-                      } else if (state is LoggedIn) {
-                        return MenuItems(loggedIn: true);
-                      }
-                      else if (state is LoggedOut) {
-                        return MenuItems(loggedIn: false);
-                      }
-                    })
-                  
-        )]));
+              child: BlocBuilder<MainMenuBloc, MainMenuState>(
+                  builder: (context, state) {
+                BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
+                if (state is NavigationState) {
+                  return MenuItems(loggedIn: false);
+                } else if (state is LoggedIn) {
+                  return MenuItems(loggedIn: true);
+                } else if (state is LoggedOut) {
+                  return MenuItems(loggedIn: false);
+                } else {
+                  return null;
+                }
+              }))
+        ]));
   }
 }

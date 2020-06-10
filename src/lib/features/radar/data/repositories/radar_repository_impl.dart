@@ -31,7 +31,7 @@ class RadarRepositoryImpl implements RadarRepository {
           timeCreated: DateTime.now(),
           latitude: coordinates.latitude,
           longitude: coordinates.longitude);
-      
+
       var uid = await radarSharedPreferencesDataSource.getUid();
 
       radarDataSource.addRadar(radar, uid);
@@ -69,7 +69,6 @@ class RadarRepositoryImpl implements RadarRepository {
       Duration difference = now.difference(radar.timeCreated);
 
       if (difference.inHours > 4) {
-        deleteRadar(radar.id);
         radars.removeAt(i);
       }
     }
@@ -100,5 +99,12 @@ class RadarRepositoryImpl implements RadarRepository {
    var uid = await radarSharedPreferencesDataSource.getUid();
     if(uid.toString() == "null") return false;
     else return true;
+  }
+
+  @override
+  Future<List<Radar>> getRadarsById() async{
+    String id = await radarSharedPreferencesDataSource.getUid();
+    List<Radar> radars = await radarDataSource.getRadarsById(id);
+    return radars;
   }
 }

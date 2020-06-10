@@ -22,7 +22,7 @@ ThemeData lightTheme() {
       hintStyle: TextStyle(color: primaryText),
     ),
     // Define the default font family.
-    fontFamily: 'Georgia',
+      fontFamily: 'Roboto',
 
     buttonTheme: ButtonThemeData(
       splashColor: primaryColor,
