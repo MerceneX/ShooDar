@@ -9,6 +9,9 @@ String mapFirebaseErrorToSlovene(String message) {
     case "The email address is already in use by another account.":
       return "Ta e-mail je že v uporabi.";
       break;
+    case "The given password is invalid. [ Password should be at least 6 characters ]":
+      return "Neveljavno geslo. Dolžina gesla mora biti vsaj 6 znakov.";
+      break;
     default:
       return message;
       break;
