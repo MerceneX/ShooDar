@@ -95,7 +95,7 @@ class RegisterPage extends StatelessWidget {
                               _redirect(context);
                             });
                             return MessageDisplay(
-                              message: 'Prijava uspešna',
+                              message: 'Registracija uspešna',
                             );
                           } else if (state
                               is RegistrationValidationErrorState) {

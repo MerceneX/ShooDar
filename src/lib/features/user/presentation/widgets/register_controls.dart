@@ -134,14 +134,15 @@ class _RegisterFormState extends State<RegisterForm> {
 
   Widget firebaseErrors() {
     if (widget.firebaseError != null && widget.firebaseError != "") {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(widget.firebaseError,
-              style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.bodyText1.fontFamily,
-              )),
-        ],
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.red),
+        ),
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.all(5),
+        child: Text(widget.firebaseError,
+            style: Theme.of(context).textTheme.bodyText1),
       );
     } else {
       return Container();
