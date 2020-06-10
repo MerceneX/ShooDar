@@ -5,15 +5,15 @@ abstract class MainMenuState extends Equatable {
   List<Object> get props => [];
 }
 
-class Unlocked extends MainMenuState {
+class LoggedIn extends MainMenuState {
 
-  Unlocked();
+  LoggedIn();
   List<Object> get props => [];
 }
 
-class Locked extends MainMenuState {
+class LoggedOut extends MainMenuState {
 
-  Locked();
+  LoggedOut();
   List<Object> get props => [];
 }
 

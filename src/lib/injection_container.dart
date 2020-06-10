@@ -1,7 +1,15 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shoodar/features/main_menu/data/datasources/services/shared_preferences_datasource_main_menu.dart';
+import 'package:shoodar/features/main_menu/data/repositories/main_menu_repository_impl.dart';
+import 'package:shoodar/features/main_menu/domain/repositories/main_menu_repository.dart';
+import 'package:shoodar/features/main_menu/domain/usecases/is_user_logged_in.dart';
+import 'package:shoodar/features/radar/data/datasources/shared_preferences_datasource_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
+import 'package:shoodar/features/radar/domain/usecases/is_user_logged_in_radar.dart';
+import 'package:shoodar/features/user/data/datasources/services/shared_preferences_datasource.dart';
 import 'core/network/network_info.dart';
+import 'features/main_menu/domain/usecases/logout_user.dart';
 import 'features/main_menu/presentation/bloc/main_menu_bloc.dart';
 import 'features/radar/presentation/bloc/radar_bloc.dart';
 import 'features/radar/domain/usecases/add_radar.dart';
@@ -28,7 +36,8 @@ Future<void> init() async {
       add: sl(),
       getRadars: sl(),
       getUserLocation: sl(),
-      checkForRadars: sl()
+      checkForRadars: sl(),
+      isUserLoggedInRadar: sl()
     )
   );
   
@@ -40,7 +49,10 @@ Future<void> init() async {
   );
 
   sl.registerFactory(
-    () => MainMenuBloc()
+    () => MainMenuBloc(
+      isUserLoggedIn: sl(),
+      logoutUser: sl()
+    )
   );
 
   // Use cases
@@ -48,26 +60,42 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetAllRadars(sl()));
   sl.registerLazySingleton(() => GetUserLocation(sl()));
   sl.registerLazySingleton(() => CheckForRadarsInPresence(sl()));
+  sl.registerLazySingleton(() => IsUserLoggedInRadar(sl()));
   
   sl.registerLazySingleton(() => RegisterUser(sl()));
   sl.registerLazySingleton(() => LoginUser(sl()));
 
+  sl.registerLazySingleton(() => IsUserLoggedIn(sl()));
+  sl.registerLazySingleton(() => LogoutUser(sl()));
+
   // Repository
   sl.registerLazySingleton<RadarRepository>(
     () => RadarRepositoryImpl(
-      radarDataSource: sl()
+      radarDataSource: sl(),
+      radarSharedPreferencesDataSource: sl()
     ),
   );
   sl.registerLazySingleton<UserRepository>(
     () => UserRepositoryImpl(
       locationService: sl(),
       authRemoteDataSource: sl(),
+      sharedPreferencesDataSource: sl(),
       networkInfo: sl(),
     ),
   );
+  sl.registerLazySingleton<MainMenuRepository>(
+    () => MainMenuRepositoryImpl(
+      mainMenusharedPreferencesDataSource: sl()
+    ),
+  );
+
   // Data sources
   sl.registerLazySingleton<RadarDataSource>(
   () => RadarDataSourceImpl(),
+  );
+
+  sl.registerLazySingleton<RadarSharedPreferencesDataSource>(
+  () => RadarSharedPreferencesDataSourceImpl(),
   );
 
   sl.registerLazySingleton<LocationService>(
@@ -76,6 +104,14 @@ Future<void> init() async {
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
   () => AuthRemoteDataSourceImpl(),
+  );
+
+  sl.registerLazySingleton<SharedPreferencesDataSource>(
+  () => SharedPreferencesDataSourceImpl(),
+  );
+
+  sl.registerLazySingleton<MainMenuSharedPreferencesDataSource>(
+  () => MainMenuSharedPreferencesDataSourceImpl(),
   );
 
   //! Core

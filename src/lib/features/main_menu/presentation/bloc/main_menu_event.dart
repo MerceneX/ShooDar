@@ -4,15 +4,15 @@ abstract class MainMenuEvent extends Equatable {
   const MainMenuEvent();
 }
 
-class UnlockEvent extends MainMenuEvent {
-  UnlockEvent();
+class LogOutEvent extends MainMenuEvent {
+  LogOutEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class LockEvent extends MainMenuEvent {
-  LockEvent();
+class RefreshEvent extends MainMenuEvent {
+  RefreshEvent();
 
   @override
   List<Object> get props => [];

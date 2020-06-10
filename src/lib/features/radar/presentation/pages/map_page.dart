@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoodar/core/usersState/usersState.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
@@ -13,6 +12,7 @@ import '../../../../injection_container.dart';
 import '../widgets/map.dart';
 
 BuildContext radarContext;
+bool isUserLoggedIn;
 
 class MapPage extends StatelessWidget {
   @override
@@ -49,6 +49,7 @@ class MapPage extends StatelessWidget {
           return LoadingWidget();
         } else if (state is Loaded) {
           radarContext = context;
+          isUserLoggedIn = state.isUserLoggedIn;
           return Map(
               radars: state.radars,
               location: state.location,
@@ -70,7 +71,7 @@ class MapPage extends StatelessWidget {
   }
 
   void getUserConfirmation(BuildContext context) async {
-    if(UsersState.signedIn == true){
+    if(isUserLoggedIn == true){
       switch (await showDialog<int>(
           context: context,
           builder: (BuildContext context) {
