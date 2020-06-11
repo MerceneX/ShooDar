@@ -15,14 +15,14 @@ class MainMenuPage extends StatelessWidget {
       onWillPop: () => showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title: Text("Do you want to exit app?"),
+                title: Text("Želite zapustiti aplikacijo?"),
                 actions: <Widget>[
                   FlatButton(
-                    child: Text("No"),
+                    child: Text("Ne"),
                     onPressed: () => Navigator.pop(context, false),
                   ),
                   FlatButton(
-                    child: Text("Yes"),
+                    child: Text("Da"),
                     onPressed: () => exit(0),
                   )
                 ],

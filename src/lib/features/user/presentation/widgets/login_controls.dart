@@ -146,6 +146,7 @@ class _LoginFormState extends State<LoginForm> {
           color: Colors.red.shade300,
         ),
         leftBarIndicatorColor: Colors.red.shade300,
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: Duration(seconds: 30),
       )..show(context);
     }

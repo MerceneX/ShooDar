@@ -37,7 +37,7 @@ class _RadarInfoPage extends State<RadarInfoPage> {
         title: Text('Podrobnosti'),
         actions: <Widget>[
           SizedBox(
-              width: 90 ,
+              width: 90,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Badge(
@@ -45,16 +45,35 @@ class _RadarInfoPage extends State<RadarInfoPage> {
                   shape: BadgeShape.square,
                   borderRadius: 20,
                   toAnimate: false,
-                  badgeContent:
-                  Text(widget.radar.isActive ? "AKTIVEN" : "NEAKTIVEN", style: TextStyle(color: Colors.white)),
+                  badgeContent: Text(
+                      widget.radar.isActive ? "AKTIVEN" : "NEAKTIVEN",
+                      style: TextStyle(color: Colors.white)),
                 ),
               )),
         ],
         centerTitle: true,
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        child:  buildBody(context),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment(0, 1.7),
+              colors: <Color>[
+                Theme.of(context).primaryColor,
+                Theme.of(context).accentColor,
+              ],
+            ),
+          ),
+          child: Container(
+              child: Column(
+            children: <Widget>[
+              Expanded(
+                child: buildBody(context),
+              ),
+            ],
+          ))),
+      bottomNavigationBar: BottomNavigation(
+        currentPage: 0,
       ),
     );
   }

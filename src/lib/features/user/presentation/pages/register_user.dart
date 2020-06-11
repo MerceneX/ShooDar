@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
+import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
 import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
 import 'package:shoodar/features/user/presentation/bloc/user_bloc.dart';
 import 'package:shoodar/features/user/presentation/bloc/bloc.dart';
@@ -16,7 +16,7 @@ class RegisterPage extends StatelessWidget {
     return WillPopScope(
         onWillPop: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => MainMenuPage()),
+              MaterialPageRoute(builder: (context) => MapPage()),
             ),
         child: Scaffold(
           body: Container(

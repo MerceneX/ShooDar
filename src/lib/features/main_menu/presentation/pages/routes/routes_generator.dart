@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoodar/features/main_menu/presentation/pages/log_out_page.dart';
 import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
+import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
 import 'package:shoodar/features/user/presentation/pages/login_user.dart';
 import 'package:shoodar/features/user/presentation/pages/register_user.dart';
@@ -23,6 +24,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => RegisterPage());
       case '/logout':
         return MaterialPageRoute(builder: (_) => LogOutPage());
+      case '/advanced':
+        return MaterialPageRoute(builder: (_) => AdvancedModePage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

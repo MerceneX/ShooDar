@@ -149,6 +149,7 @@ class _RegisterFormState extends State<RegisterForm> {
           color: Colors.red.shade300,
         ),
         leftBarIndicatorColor: Colors.red.shade300,
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: Duration(seconds: 30),
       )..show(context);
     }

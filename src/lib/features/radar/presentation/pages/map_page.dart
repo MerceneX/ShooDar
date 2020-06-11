@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
+import 'package:shoodar/features/main_menu/presentation/widgets/exit_dialog.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
@@ -17,8 +20,12 @@ bool isUserLoggedIn;
 class MapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Scaffold(
+    return WillPopScope(
+        onWillPop: () => showDialog(
+              context: context,
+              builder: (context) => ExitAppDialog(),
+            ),
+        child: Scaffold(
           body: buildBody(context),
           bottomNavigationBar: BottomNavigation(
             currentPage: 1,
@@ -34,8 +41,8 @@ class MapPage extends StatelessWidget {
                   Icons.linked_camera,
                   size: MediaQuery.of(context).size.height * 0.15,
                 ),
-              ))),
-    );
+              )),
+        ));
   }
 
   BlocProvider<RadarBloc> buildBody(BuildContext context) {
@@ -71,7 +78,7 @@ class MapPage extends StatelessWidget {
   }
 
   void getUserConfirmation(BuildContext context) async {
-    if(isUserLoggedIn == true){
+    if (isUserLoggedIn == true) {
       switch (await showDialog<int>(
           context: context,
           builder: (BuildContext context) {
@@ -83,14 +90,12 @@ class MapPage extends StatelessWidget {
         case 0:
           break;
       }
-    }
-    else{
-       await showDialog<int>(
+    } else {
+      await showDialog<int>(
           context: context,
           builder: (BuildContext context) {
             return LoginFirstDialog();
-          }
-        );
+          });
     }
   }
 }

@@ -26,7 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       backgroundColor: Theme.of(context).primaryColor,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.dashboard),
           title: Text('Domov'),
         ),
         BottomNavigationBarItem(
@@ -34,8 +34,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
           title: Text('Zemljevid'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.exit_to_app),
-          title: Text('Izpis'),
+          icon: Icon(Icons.settings_applications),
+          title: Text('Nastavitve'),
         ),
       ],
       currentIndex: widget.currentPage,
@@ -55,16 +55,16 @@ class _BottomNavigationState extends State<BottomNavigation> {
       backgroundColor: Theme.of(context).primaryColor,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          title: Text('Domov'),
+          icon: Icon(Icons.person),
+          title: Text('Prijava'),
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.map),
           title: Text('Zemljevid'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          title: Text('Uporabnik'),
+          icon: Icon(Icons.settings_applications),
+          title: Text('Nastavitve'),
         ),
       ],
       currentIndex: widget.currentPage,
@@ -106,9 +106,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
     //BlocProvider.of<MainMenuBloc>(context).add(ChangePageEvent(page: page));
     switch (page) {
       case 0:
-        Navigator.of(context).pushReplacementNamed(
-          '/menu',
-        );
+        if (loggedIn) {
+          Navigator.of(context).pushReplacementNamed(
+            '/advanced',
+          );
+        } else {
+          Navigator.of(context).pushReplacementNamed(
+            '/login',
+          );
+        }
         break;
       case 1:
         Navigator.of(context).pushReplacementNamed(
