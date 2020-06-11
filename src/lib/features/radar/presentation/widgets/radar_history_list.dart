@@ -115,7 +115,7 @@ class _RadarHistoryListState extends State<RadarHistoryList> {
                               elevation: 3,
                               child: ListTile(
                                   leading: Container(
-                                      width: 90,
+                                      width: 30,
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Badge(
@@ -127,8 +127,8 @@ class _RadarHistoryListState extends State<RadarHistoryList> {
                                           toAnimate: false,
                                           badgeContent: Text(
                                               radar.isActive
-                                                  ? "AKTIVEN"
-                                                  : "NEAKTIVEN",
+                                                  ? "     "
+                                                  : "     ",
                                               style: TextStyle(
                                                 color: Theme.of(context)
                                                     .textTheme
@@ -151,7 +151,7 @@ class _RadarHistoryListState extends State<RadarHistoryList> {
                                             .withOpacity(0.6),
                                       )),
                                   trailing: SizedBox(
-                                      width: 50,
+                                      width: 40,
                                       child: FlatButton(
                                           child: Icon(Icons.delete,
                                               color: Colors.grey),
