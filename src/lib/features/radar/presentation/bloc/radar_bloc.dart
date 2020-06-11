@@ -8,10 +8,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
 import 'package:shoodar/features/radar/domain/usecases/delete_radar.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_close_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_markers.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars_by_id.dart';
 import 'package:shoodar/features/radar/domain/usecases/is_user_logged_in_radar.dart';
+import 'package:shoodar/features/radar/domain/usecases/update_radar.dart';
+import 'package:shoodar/features/radar/presentation/widgets/is_radar_still_there_dialog.dart';
 import 'package:shoodar/features/radar/presentation/widgets/notification_dialog.dart';
 import 'package:shoodar/features/user/domain/entities/user_location.dart';
 import 'package:shoodar/features/user/domain/usecases/get_user_location.dart';
@@ -31,10 +34,13 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
   final GetRadars getRadars;
   final GetUserLocation getUserLocation;
   final CheckForRadarsInPresence checkForRadars;
+  final GetCloseRadar getCloseRadar;
   final IsUserLoggedInRadar isUserLoggedInRadar;
   final DeleteRadar deleteRadar;
   final GetRadarsById getRadarsById;
+  final UpdateRadar updateRadar;
   final AppState appState = new AppState();
+
 
   RadarBloc({
     @required AddRadar add,
@@ -45,6 +51,8 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
     @required IsUserLoggedInRadar isUserLoggedInRadar,
     @required DeleteRadar deleteRadar,
     @required GetRadarsById getRadarsById,
+    @required GetCloseRadar getCloseRadar,
+    @required UpdateRadar updateRadar,
   })  : assert(add != null),
         assert(getMarkers != null),
         assert(getUserLocation != null),
@@ -53,6 +61,8 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
         assert(isUserLoggedInRadar != null),
         assert(deleteRadar != null),
         assert(getRadarsById != null),
+        assert(getCloseRadar != null),
+        assert(updateRadar != null),
         addRadar = add,
         getMarkers = getMarkers,
         getUserLocation = getUserLocation,
@@ -60,6 +70,8 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
         checkForRadars = checkForRadars,
         isUserLoggedInRadar = isUserLoggedInRadar,
         deleteRadar = deleteRadar,
+        getCloseRadar = getCloseRadar,
+        updateRadar = updateRadar,
         getRadarsById = getRadarsById;
 
   @override
@@ -88,7 +100,9 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
       await deleteRadar(DeleteRadarParams(radarId: event.id));
 
       yield* _loadedState(null, null, null, null, isLoggedIn, radars: radars);
-    } else if (event is LoadMapEvent) {
+    } else if (event is UpdateRadarEvent) {   
+        updateRadar(UpdateRadarParams(radar: event.radar));
+      }else if (event is LoadMapEvent) {
       Completer<GoogleMapController> controller = Completer();
 
       Set<Marker> markers = await getMarkers(NoParams());
@@ -119,7 +133,7 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
 
       if (loc != null) {
         target = LatLng(loc.latitude, loc.longitude);
-      }
+      } 
 
       CameraPosition initialCameraPosition =
           CameraPosition(zoom: 16, target: target, tilt: 18, bearing: 30);
@@ -127,13 +141,21 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
       bool isLoggedIn = await isUserLoggedInRadar(NoParams());
 
       bool radarClose = await checkForRadars(Params(userLocation: loc));
+      Radar closeRadar = await getCloseRadar(CloseRadarParams(userLocation: loc));
 
       if (radarClose) {
+        
         if (appState.appCurrentState != AppLifecycleState.resumed) {
           await _dispatchNotification();
         }
         playRadarAlertSound();
-        showRadarAlertDialog(event.context);
+
+        _showRadarAlertDialog(event.context);
+
+        Future.delayed(Duration(seconds: 15), () {
+             _showRadarExistanceConfirmationDialog(event.context, closeRadar);
+          });
+   
         yield* _loadedState(
             markers, loc, controller, initialCameraPosition, isLoggedIn);
       }
@@ -152,12 +174,22 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
     return await cache.play("notificationSound.mp3");
   }
 
-  Future<void> showRadarAlertDialog(BuildContext context) async {
+  Future<void> _showRadarAlertDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return RadarAlertDialog();
+      },
+    );
+  }
+
+  Future<void> _showRadarExistanceConfirmationDialog(BuildContext context, Radar radar) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return IsRadarThereDialog(radar: radar);
       },
     );
   }

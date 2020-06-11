@@ -11,7 +11,7 @@ class Radar {
   final String userId;
   final String address;
   final String administrativeArea;
-  final bool isActive;
+  bool isActive;
 
   Radar({
     @required this.timeCreated,

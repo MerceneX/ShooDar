@@ -7,6 +7,7 @@ import 'package:shoodar/features/main_menu/domain/usecases/is_user_logged_in.dar
 import 'package:shoodar/features/radar/data/datasources/shared_preferences_datasource_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
 import 'package:shoodar/features/radar/domain/usecases/delete_radar.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_close_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars_by_id.dart';
 import 'package:shoodar/features/radar/domain/usecases/is_user_logged_in_radar.dart';
 import 'package:shoodar/features/user/data/datasources/services/shared_preferences_datasource.dart';
@@ -14,6 +15,7 @@ import 'core/network/network_info.dart';
 import 'features/main_menu/domain/usecases/logout_user.dart';
 import 'features/main_menu/presentation/bloc/main_menu_bloc.dart';
 import 'features/radar/domain/usecases/get_radars.dart';
+import 'features/radar/domain/usecases/update_radar.dart';
 import 'features/radar/presentation/bloc/radar_bloc.dart';
 import 'features/radar/domain/usecases/add_radar.dart';
 import 'features/radar/domain/usecases/get_markers.dart';
@@ -43,7 +45,9 @@ Future<void> init() async {
       checkForRadars: sl(),
       isUserLoggedInRadar: sl(),
       deleteRadar: sl(),
-      getRadarsById: sl()
+      getRadarsById: sl(),
+      getCloseRadar: sl(),
+      updateRadar: sl(),
     )
   );
   
@@ -66,9 +70,11 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetMarkers(sl()));
   sl.registerLazySingleton(() => GetRadars(sl()));
   sl.registerLazySingleton(() => DeleteRadar(sl()));
+  sl.registerLazySingleton(() => UpdateRadar(sl()));
 
   sl.registerLazySingleton(() => GetUserLocation(sl()));
   sl.registerLazySingleton(() => CheckForRadarsInPresence(sl()));
+  sl.registerLazySingleton(() => GetCloseRadar(sl()));
   sl.registerLazySingleton(() => IsUserLoggedInRadar(sl()));
   sl.registerLazySingleton(() => GetRadarsById(sl()));
   

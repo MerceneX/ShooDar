@@ -7,6 +7,9 @@ class RadarAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 5), () {
+             Navigator.pop(context, 1);
+          });
     return SimpleDialog(
       titlePadding: EdgeInsets.all(10),
       backgroundColor: Theme.of(context).accentColor.withOpacity(0.5),

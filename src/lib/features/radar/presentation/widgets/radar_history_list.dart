@@ -1,13 +1,12 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:shoodar/features/main_menu/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/pages/radar_info_page.dart';
-import 'package:intl/intl.dart';
+
 
 import '../../../../injection_container.dart';
 

@@ -1,6 +1,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 
 abstract class RadarEvent extends Equatable {
   const RadarEvent();
@@ -33,7 +34,7 @@ class GetRadarsEvent extends RadarEvent {
 }
 
 class DeleteRadarsEvent extends RadarEvent {
-  String id;
+  final String id;
 
   DeleteRadarsEvent(this.id);
 
@@ -41,8 +42,17 @@ class DeleteRadarsEvent extends RadarEvent {
   List<Object> get props => [id];
 }
 
+class UpdateRadarEvent extends RadarEvent {
+  final Radar radar;
+
+  UpdateRadarEvent(this.radar);
+
+  @override
+  List<Object> get props => [radar];
+}
+
 class LocationChangedEvent extends RadarEvent {
-  BuildContext context;
+  final BuildContext context;
   LocationChangedEvent(this.context);
 
   @override

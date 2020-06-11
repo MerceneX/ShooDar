@@ -4,15 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
-import 'package:shoodar/features/radar/presentation/bloc/radar_event.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_state.dart';
-import 'package:shoodar/features/radar/presentation/widgets/loading_widget.dart';
-import 'package:shoodar/features/radar/presentation/widgets/radar_confirmtion_dialog.dart';
-import 'package:shoodar/features/radar/presentation/widgets/login_first_dialog.dart';
 import 'package:shoodar/features/radar/presentation/widgets/radar_info.dart';
 
 import '../../../../injection_container.dart';
-import '../widgets/map.dart';
+
 
 BuildContext radarContext;
 bool isUserLoggedIn;

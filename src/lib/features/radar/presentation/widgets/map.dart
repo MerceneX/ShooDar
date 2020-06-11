@@ -34,7 +34,7 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    const period = const Duration(seconds: 20);
+    const period = const Duration(seconds: 15);
     new Timer.periodic(
         period, (Timer t) => {
           if (context != null) {

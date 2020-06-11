@@ -8,10 +8,12 @@ abstract class RadarDataSource {
   Future<List<Radar>> getAllRadars();
   Future<List<Radar>> getRadarsById(String id);
   Future<void> deleteRadar(String id);
+  void updateRadar(Radar radar);
 
 }
 
 class RadarDataSourceImpl implements RadarDataSource {
+  
   final databaseRef = Firestore.instance;
 
   @override
@@ -19,7 +21,8 @@ class RadarDataSourceImpl implements RadarDataSource {
     await databaseRef.collection("radars").add({
           'timeCreated': new DateTime.now(),
           'location': new GeoPoint(radar.latitude, radar.longitude),
-          'userUid': uid
+          'userUid': uid,
+          'isActive': true
     });
   }
 
@@ -44,7 +47,7 @@ class RadarDataSourceImpl implements RadarDataSource {
           userId: radar.data['userUid'],
           address: fullAddress[0],
           administrativeArea:fullAddress[1],
-          isActive: difference.inHours < 4
+          isActive: radar.data['isActive']
       ));
     }
     return allRadars;
@@ -71,5 +74,18 @@ class RadarDataSourceImpl implements RadarDataSource {
     radars = radars.where((element) => element.userId == id).toList();
 
     return radars;
+  }
+
+  @override
+  void updateRadar(Radar radar) {
+    databaseRef.
+      collection('radars')
+      .document(radar.id)
+      .updateData(({
+          'timeCreated': radar.timeCreated,
+          'location': new GeoPoint(radar.latitude, radar.longitude),
+          'userUid': radar.userId,
+          'isActive': radar.isActive  
+    }));
   }
 }

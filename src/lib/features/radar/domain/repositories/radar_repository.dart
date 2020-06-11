@@ -9,4 +9,6 @@ abstract class RadarRepository {
   Future<bool> isRadarClose(UserLocation userLocation);
   Future<bool> isUserLoggedInRadar();
   Future<List<Radar>> getRadarsById();
+  Future<Radar> getCloseRadarIfExists(UserLocation userLocation);
+  void updateRadar(Radar radar);
 }
