@@ -43,7 +43,12 @@ class IsRadarThereDialog extends StatelessWidget {
                   height: 60,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
-                    radar.isActive = false;
+                    radar.radarNotPresentCounter++;
+
+                    if (radar.radarNotPresentCounter >= 3) {
+                      radar.isActive = false;
+                    }
+
                     dispatchUpdateRadar(context, radar);
                     Navigator.pop(context, 0);
                   },

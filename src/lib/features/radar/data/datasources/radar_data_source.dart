@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 
 import '../../domain/entitites/radar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class RadarDataSource {
   void addRadar(Radar radar, String uid);
@@ -22,7 +22,8 @@ class RadarDataSourceImpl implements RadarDataSource {
           'timeCreated': new DateTime.now(),
           'location': new GeoPoint(radar.latitude, radar.longitude),
           'userUid': uid,
-          'isActive': true
+          'isActive': true,
+          'radarNotPresentCounter': 0
     });
   }
 
@@ -47,7 +48,8 @@ class RadarDataSourceImpl implements RadarDataSource {
           userId: radar.data['userUid'],
           address: fullAddress[0],
           administrativeArea:fullAddress[1],
-          isActive: radar.data['isActive']
+          isActive: radar.data['isActive'],
+          radarNotPresentCounter: radar.data['radarNotPresentCounter'] == null ? 0 : radar.data['radarNotPresentCounter']
       ));
     }
     return allRadars;
@@ -85,7 +87,8 @@ class RadarDataSourceImpl implements RadarDataSource {
           'timeCreated': radar.timeCreated,
           'location': new GeoPoint(radar.latitude, radar.longitude),
           'userUid': radar.userId,
-          'isActive': radar.isActive  
+          'isActive': radar.isActive,
+          'radarNotPresentCounter': radar.radarNotPresentCounter
     }));
   }
 }

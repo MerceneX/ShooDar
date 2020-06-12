@@ -12,6 +12,7 @@ class Radar {
   final String address;
   final String administrativeArea;
   bool isActive;
+  int radarNotPresentCounter;
 
   Radar({
     @required this.timeCreated,
@@ -23,7 +24,9 @@ class Radar {
     this.isSeen = false,
     this.address,
     this.administrativeArea,
-    this.isActive = false
+    this.isActive = false,
+    this.radarNotPresentCounter = 0
+
   });
 
 }
