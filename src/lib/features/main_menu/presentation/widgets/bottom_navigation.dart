@@ -122,14 +122,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
         );
         break;
       case 2:
-        if (loggedIn) {
-          BlocProvider.of<MainMenuBloc>(context).add(LogOutEvent());
-          BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
-        } else {
-          Navigator.of(context).pushReplacementNamed(
-            '/login',
-          );
-        }
+        Navigator.of(context).pushReplacementNamed(
+          '/settings',
+        );
         break;
       default:
     }
