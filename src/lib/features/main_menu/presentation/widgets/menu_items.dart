@@ -30,6 +30,7 @@ class _MenuItemsState extends State<MenuItems> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => dispatchRefresh());
     return ListView(
       primary: false,
       reverse: true,
@@ -115,5 +116,9 @@ class _MenuItemsState extends State<MenuItems> {
       context,
       MaterialPageRoute(builder: (context) => MapPage()),
     );
+  }
+
+  void dispatchRefresh() {
+    BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
   }
 }

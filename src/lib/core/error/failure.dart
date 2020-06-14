@@ -24,6 +24,12 @@ class RegisterFailure extends Failure {
   }
 }
 
+class InvalidInputFailure extends Failure {
+  InvalidInputFailure(String message) {
+    super.message = message;
+  }
+}
+
 class NoInputFailure extends Failure {}
 
 class InvalidEmailFailure extends Failure {}

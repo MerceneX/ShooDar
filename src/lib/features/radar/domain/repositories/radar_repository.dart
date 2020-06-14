@@ -11,4 +11,6 @@ abstract class RadarRepository {
   Future<List<Radar>> getRadarsById();
   Future<Radar> getCloseRadarIfExists(UserLocation userLocation);
   void updateRadar(Radar radar);
+  Future<int> getRadarAlertDistance();
+  Future<void> setRadarAlertDistance(int meters);
 }

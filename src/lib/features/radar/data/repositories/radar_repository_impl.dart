@@ -121,14 +121,15 @@ class RadarRepositoryImpl implements RadarRepository {
   Future<Radar> getCloseRadarIfExists(UserLocation userLocation,{bool isNew = false}) async {
     List<Radar> radars = await getAllRadars();
     Radar foundRadar;
-    radars.forEach((Radar radar) {
+    radars.forEach((Radar radar) async {
       Distance distance = new Distance();
       final double meters = distance.as(
           LengthUnit.Meter,
           new LatLng(userLocation.latitude, userLocation.longitude),
           new LatLng(radar.latitude, radar.longitude));
 
-      if (meters < 200 && !RadarRepositoryImpl.promptedRadars.contains(radar.id)) {
+      int radarAlertDistance = await getRadarAlertDistance();
+      if (meters < radarAlertDistance && !RadarRepositoryImpl.promptedRadars.contains(radar.id)) {
         foundRadar = radar;
         RadarRepositoryImpl.promptedRadars.add(radar.id);
       }
@@ -140,5 +141,21 @@ class RadarRepositoryImpl implements RadarRepository {
   void updateRadar(Radar radar) {
     radarDataSource.updateRadar(radar);
   }
+
+  @override
+  Future<void> setRadarAlertDistance(int meters) async {
+    radarSharedPreferencesDataSource.setRadarAlertDistance(meters);
+  }
   
+  @override
+  Future<int> getRadarAlertDistance() async {
+    var distance = await radarSharedPreferencesDataSource.getRadarAlertDistance();
+    if(distance == null){
+      setRadarAlertDistance(200);
+      return(200);
+    }
+    else{
+      return int.parse(distance);
+    }
+  }
 }

@@ -72,7 +72,6 @@ class MainMenuPage extends StatelessWidget {
               ),
               child: BlocBuilder<MainMenuBloc, MainMenuState>(
                   builder: (context, state) {
-                BlocProvider.of<MainMenuBloc>(context).add(RefreshEvent());
                 if (state is NavigationState) {
                   return MenuItems(loggedIn: false);
                 } else if (state is LoggedIn) {

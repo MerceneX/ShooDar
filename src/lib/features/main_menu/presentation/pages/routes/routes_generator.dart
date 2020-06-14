@@ -3,6 +3,7 @@ import 'package:shoodar/features/main_menu/presentation/pages/log_out_page.dart'
 import 'package:shoodar/features/main_menu/presentation/pages/main_menu_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/advanced_mode_page.dart';
 import 'package:shoodar/features/radar/presentation/pages/map_page.dart';
+import 'package:shoodar/features/settings/presentation/pages/settings_page.dart';
 import 'package:shoodar/features/user/presentation/pages/login_user.dart';
 import 'package:shoodar/features/user/presentation/pages/register_user.dart';
 
@@ -27,7 +28,7 @@ class RouteGenerator {
       case '/advanced':
         return MaterialPageRoute(builder: (_) => AdvancedModePage());
       case '/settings':
-        return MaterialPageRoute(builder: (_) => MainMenuPage());
+        return MaterialPageRoute(builder: (_) => SettingsPage());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

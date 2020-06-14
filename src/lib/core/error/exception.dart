@@ -13,3 +13,11 @@ class RegisterException implements Exception {
     this.message = message;
   }
 }
+
+class FormatException implements Exception {
+  String message;
+
+  FormatException(String message){
+    this.message = message;
+  }
+}

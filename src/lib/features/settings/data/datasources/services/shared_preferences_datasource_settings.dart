@@ -1,18 +1,11 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class RadarSharedPreferencesDataSource {
-  Future<String> getUid();
+abstract class SettingsSharedPreferencesDataSource {
   Future<String> getRadarAlertDistance();
   void setRadarAlertDistance(int meters);
 }
 
-class RadarSharedPreferencesDataSourceImpl implements RadarSharedPreferencesDataSource {
-
-  @override
-  Future<String> getUid() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString('uid');
-  }
+class SettingsSharedPreferencesDataSourceImpl implements SettingsSharedPreferencesDataSource {
 
   @override
   Future<String> getRadarAlertDistance() async {

@@ -1,5 +1,6 @@
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shoodar/core/util/input_converter.dart';
 import 'package:shoodar/features/main_menu/data/datasources/services/shared_preferences_datasource_main_menu.dart';
 import 'package:shoodar/features/main_menu/data/repositories/main_menu_repository_impl.dart';
 import 'package:shoodar/features/main_menu/domain/repositories/main_menu_repository.dart';
@@ -10,6 +11,12 @@ import 'package:shoodar/features/radar/domain/usecases/delete_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_close_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars_by_id.dart';
 import 'package:shoodar/features/radar/domain/usecases/is_user_logged_in_radar.dart';
+import 'package:shoodar/features/settings/data/datasources/services/shared_preferences_datasource_settings.dart';
+import 'package:shoodar/features/settings/data/repositories/settings_repository_impl.dart';
+import 'package:shoodar/features/settings/domain/repositories/settings_repository.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_radar_alert_distance.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_radar_alert_distance.dart';
+import 'package:shoodar/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:shoodar/features/user/data/datasources/services/shared_preferences_datasource.dart';
 import 'core/network/network_info.dart';
 import 'features/main_menu/domain/usecases/logout_user.dart';
@@ -65,6 +72,14 @@ Future<void> init() async {
     )
   );
 
+  sl.registerFactory(
+    () => SettingsBloc(
+      setRadarAlertDistance: sl(),
+      getRadarAlertDistance: sl(),
+      inputConverter: sl()
+    )
+  );
+
   // Use cases
   sl.registerLazySingleton(() => AddRadar(sl()));
   sl.registerLazySingleton(() => GetMarkers(sl()));
@@ -84,6 +99,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => IsUserLoggedIn(sl()));
   sl.registerLazySingleton(() => LogoutUser(sl()));
 
+  sl.registerLazySingleton(() => SetRadarAlertDistance(sl()));
+  sl.registerLazySingleton(() => GetRadarAlertDistance(sl()));
+
   // Repository
   sl.registerLazySingleton<RadarRepository>(
     () => RadarRepositoryImpl(
@@ -102,6 +120,11 @@ Future<void> init() async {
   sl.registerLazySingleton<MainMenuRepository>(
     () => MainMenuRepositoryImpl(
       mainMenusharedPreferencesDataSource: sl()
+    ),
+  );
+  sl.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(
+      settingsSharedPreferencesDataSource: sl()
     ),
   );
 
@@ -130,8 +153,13 @@ Future<void> init() async {
   () => MainMenuSharedPreferencesDataSourceImpl(),
   );
 
+  sl.registerLazySingleton<SettingsSharedPreferencesDataSource>(
+  () => SettingsSharedPreferencesDataSourceImpl(),
+  );
+
   //! Core
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  sl.registerLazySingleton(() => InputConverter());
   
   //! External
   sl.registerLazySingleton(() => DataConnectionChecker());
