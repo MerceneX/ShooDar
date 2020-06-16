@@ -42,4 +42,55 @@ class SettingsRepositoryImpl implements SettingsRepository {
       return int.parse(periode);
     }
   }
+
+  @override
+  Future<void> setSoundNotification(bool onOff) async {
+    settingsSharedPreferencesDataSource.setSoundNotification(onOff);
+  }
+
+  @override
+  Future<bool> getSoundNotification() async {
+    var onOff = await settingsSharedPreferencesDataSource.getSoundNotification();
+    if(onOff == null){
+      setSoundNotification(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
+
+  @override
+  Future<void> setAskToAddRadar(bool onOff) async {
+    settingsSharedPreferencesDataSource.setAskToAddRadar(onOff);
+  }
+
+  @override
+  Future<bool> getAskToAddRadar() async {
+    var onOff = await settingsSharedPreferencesDataSource.getAskToAddRadar();
+    if(onOff == null){
+      setAskToAddRadar(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
+
+  @override
+  Future<void> setNotification(bool onOff) async {
+    settingsSharedPreferencesDataSource.setNotification(onOff);
+  }
+
+  @override
+  Future<bool> getNotification() async {
+    var onOff = await settingsSharedPreferencesDataSource.getNotification();
+    if(onOff == null){
+      setNotification(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
 }

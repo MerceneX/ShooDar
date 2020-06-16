@@ -8,17 +8,26 @@ import 'package:shoodar/features/main_menu/domain/usecases/is_user_logged_in.dar
 import 'package:shoodar/features/radar/data/datasources/shared_preferences_datasource_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
 import 'package:shoodar/features/radar/domain/usecases/delete_radar.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_ask_to_add_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_check_radar_periode_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_close_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars_by_id.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_show_notification.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_sound_notification.dart';
 import 'package:shoodar/features/radar/domain/usecases/is_user_logged_in_radar.dart';
 import 'package:shoodar/features/settings/data/datasources/services/shared_preferences_datasource_settings.dart';
 import 'package:shoodar/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:shoodar/features/settings/domain/repositories/settings_repository.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_ask_to_add_radar.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_notification.dart';
 import 'package:shoodar/features/settings/domain/usecases/get_radar_alert_distance.dart';
 import 'package:shoodar/features/settings/domain/usecases/get_check_radar_periode.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_sound_notification.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_ask_to_add_radar.dart';
 import 'package:shoodar/features/settings/domain/usecases/set_check_radar_periode.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_notification.dart';
 import 'package:shoodar/features/settings/domain/usecases/set_radar_alert_distance.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_sound_notification.dart';
 import 'package:shoodar/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:shoodar/features/user/data/datasources/services/shared_preferences_datasource.dart';
 import 'core/network/network_info.dart';
@@ -59,6 +68,9 @@ Future<void> init() async {
       getCloseRadar: sl(),
       updateRadar: sl(),
       radarPeriode: sl(),
+      soundNotification: sl(),
+      askToAddRadar: sl(),
+      showNotification: sl()
     )
   );
   
@@ -82,6 +94,12 @@ Future<void> init() async {
       getRadarAlertDistance: sl(),
       setCheckRadarPeriode: sl(),
       getCheckRadarPeriode: sl(),
+      setSoundNotification: sl(),
+      getSoundNotification: sl(),
+      setAskToAddRadar: sl(),
+      getAskToAddRadar: sl(),
+      setNotification: sl(),
+      getNotification: sl(),
       inputConverter: sl()
     )
   );
@@ -98,6 +116,9 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetCloseRadar(sl()));
   sl.registerLazySingleton(() => IsUserLoggedInRadar(sl()));
   sl.registerLazySingleton(() => GetCheckRadarPeriodeRadar(sl()));
+  sl.registerLazySingleton(() => GetSoundNotificationRadar(sl()));
+  sl.registerLazySingleton(() => GetAskToAddRadarRadar(sl()));
+  sl.registerLazySingleton(() => GetShowNotification(sl()));
   sl.registerLazySingleton(() => GetRadarsById(sl()));
   
   sl.registerLazySingleton(() => RegisterUser(sl()));
@@ -110,6 +131,12 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetRadarAlertDistance(sl()));
   sl.registerLazySingleton(() => SetCheckRadarPeriode(sl()));
   sl.registerLazySingleton(() => GetCheckRadarPeriode(sl()));
+  sl.registerLazySingleton(() => SetSoundNotification(sl()));
+  sl.registerLazySingleton(() => GetSoundNotification(sl()));
+  sl.registerLazySingleton(() => SetAskToAddRadar(sl()));
+  sl.registerLazySingleton(() => GetAskToAddRadar(sl()));
+  sl.registerLazySingleton(() => SetNotification(sl()));
+  sl.registerLazySingleton(() => GetNotification(sl()));
 
   // Repository
   sl.registerLazySingleton<RadarRepository>(

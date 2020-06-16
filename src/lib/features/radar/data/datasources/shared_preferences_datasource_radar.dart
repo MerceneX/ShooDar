@@ -8,6 +8,15 @@ abstract class RadarSharedPreferencesDataSource {
 
   Future<String> getCheckRadarPeriode();
   void setCheckRadarPeriode(int seconds);
+
+  Future<bool> getSoundNotification();
+  void setSoundNotification(bool onOff);
+
+  Future<bool> getAskToAddRadar();
+  void setAskToAddRadar(bool onOff);
+
+  Future<bool> getShowNotification();
+  void setShowNotification(bool onOff);
 }
 
 class RadarSharedPreferencesDataSourceImpl implements RadarSharedPreferencesDataSource {
@@ -40,5 +49,41 @@ class RadarSharedPreferencesDataSourceImpl implements RadarSharedPreferencesData
   void setCheckRadarPeriode(int seconds) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('checkRadarPeriode', seconds.toString());  
+  }
+
+  @override
+  Future<bool> getSoundNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('soundNotification');
+  }
+
+  @override
+  void setSoundNotification(bool onOff) async {print(onOff);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('soundNotification', onOff);  
+  }
+
+  @override
+  Future<bool> getAskToAddRadar() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('askToAddRadar');
+  }
+
+  @override
+  void setAskToAddRadar(bool onOff) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('askToAddRadar', onOff);  
+  }
+
+  @override
+  Future<bool> getShowNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('notification');
+  }
+
+  @override
+  void setShowNotification(bool onOff) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('notification', onOff);  
   }
 }

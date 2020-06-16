@@ -14,6 +14,7 @@ import '../widgets/map.dart';
 
 BuildContext radarContext;
 bool isUserLoggedIn;
+bool addRadarConfirm;
 
 class MapPage extends StatelessWidget {
   @override
@@ -57,6 +58,7 @@ class MapPage extends StatelessWidget {
         } else if (state is Loaded) {
           radarContext = context;
           isUserLoggedIn = state.isUserLoggedIn;
+          addRadarConfirm = state.askToAddRadar;
           return Map(
               radars: state.markers,
               location: state.location,
@@ -80,19 +82,25 @@ class MapPage extends StatelessWidget {
 
   void getUserConfirmation(BuildContext context) async {
     if (isUserLoggedIn == true) {
-      switch (await showDialog<int>(
-          context: context,
-          builder: (BuildContext context) {
-            return RadarUserConfirmationDialog();
-          })) {
-        case 1:
-          dispatchAdd(radarContext);
-          break;
-        case 0:
-          break;
-      }
-    } else {
-      await showDialog<int>(
+      if(addRadarConfirm == true){
+        switch (await showDialog<int>(
+            context: context,
+            builder: (BuildContext context) {
+              return RadarUserConfirmationDialog();
+            })) {
+          case 1:
+            dispatchAdd(radarContext);
+            break;
+          case 0:
+            break;
+        }
+      } 
+      else {
+        dispatchAdd(radarContext);
+      }     
+    }
+    else{
+        await showDialog<int>(
           context: context,
           builder: (BuildContext context) {
             return LoginFirstDialog();

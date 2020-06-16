@@ -3,10 +3,16 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shoodar/core/usecases/usecase.dart';
 import 'package:shoodar/core/util/input_converter.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_ask_to_add_radar.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_notification.dart';
 import 'package:shoodar/features/settings/domain/usecases/get_radar_alert_distance.dart';
+import 'package:shoodar/features/settings/domain/usecases/get_sound_notification.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_ask_to_add_radar.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_notification.dart';
 import 'package:shoodar/features/settings/domain/usecases/set_radar_alert_distance.dart';
 import 'package:shoodar/features/settings/domain/usecases/get_check_radar_periode.dart';
 import 'package:shoodar/features/settings/domain/usecases/set_check_radar_periode.dart';
+import 'package:shoodar/features/settings/domain/usecases/set_sound_notification.dart';
 
 import './bloc.dart';
 
@@ -18,18 +24,36 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final GetRadarAlertDistance getRadarAlertDistance;
   final SetCheckRadarPeriode setCheckRadarPeriode;
   final GetCheckRadarPeriode getCheckRadarPeriode;
+  final SetSoundNotification setSoundNotification;
+  final GetSoundNotification getSoundNotification;
+  final SetAskToAddRadar setAskToAddRadar;
+  final GetAskToAddRadar getAskToAddRadar;
+  final SetNotification setNotification;
+  final GetNotification getNotification;
   final InputConverter inputConverter;
 
-  SettingsBloc({@required SetRadarAlertDistance setRadarAlertDistance, @required GetRadarAlertDistance getRadarAlertDistance, @required SetCheckRadarPeriode setCheckRadarPeriode, @required GetCheckRadarPeriode getCheckRadarPeriode, @required this.inputConverter})
+  SettingsBloc({@required SetRadarAlertDistance setRadarAlertDistance, @required GetRadarAlertDistance getRadarAlertDistance, @required SetCheckRadarPeriode setCheckRadarPeriode, @required GetCheckRadarPeriode getCheckRadarPeriode, @required SetSoundNotification setSoundNotification, @required GetSoundNotification getSoundNotification, @required SetAskToAddRadar setAskToAddRadar, @required GetAskToAddRadar getAskToAddRadar, @required SetNotification setNotification, @required GetNotification getNotification, @required this.inputConverter})
       : assert(setRadarAlertDistance != null),
         assert(getRadarAlertDistance != null),
         assert(setCheckRadarPeriode != null),
         assert(getCheckRadarPeriode != null),
+        assert(setSoundNotification != null),
+        assert(getSoundNotification != null),
+        assert(setAskToAddRadar != null),
+        assert(getAskToAddRadar != null),
+        assert(setNotification != null),
+        assert(getNotification != null),
         assert(inputConverter != null),
         setRadarAlertDistance = setRadarAlertDistance,
         getRadarAlertDistance = getRadarAlertDistance,
         setCheckRadarPeriode = setCheckRadarPeriode,
-        getCheckRadarPeriode = getCheckRadarPeriode;
+        getCheckRadarPeriode = getCheckRadarPeriode,
+        setSoundNotification = setSoundNotification,
+        getSoundNotification = getSoundNotification,
+        setAskToAddRadar = setAskToAddRadar,
+        getAskToAddRadar = getAskToAddRadar,
+        setNotification = setNotification,
+        getNotification = getNotification;
         
   @override
   SettingsState get initialState => InitState();
@@ -41,9 +65,12 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     if (event is RefreshEvent) {
       int distance = await getRadarAlertDistance(NoParams());
       int periode = await getCheckRadarPeriode(NoParams());
-      yield InitState(radarAlertDistance: distance.toString(), checkRadarPeriode: periode.toString());
+      bool soundNotification = await getSoundNotification(NoParams());
+      bool askToAddRadar = await getAskToAddRadar(NoParams());
+      bool notification = await getNotification(NoParams());
+      yield InitState(radarAlertDistance: distance.toString(), checkRadarPeriode: periode.toString(), soundNotification: soundNotification, askToAddRadar: askToAddRadar, notification: notification);
     }
-    else if (event is SaveEvent) {print(event.distance);
+    else if (event is SaveEvent) {
       final distanceInput = inputConverter.stringToUnsignedInteger(event.distance);
       yield* distanceInput.fold(
         (failure) async* {
@@ -54,7 +81,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           yield InitState(radarAlertDistance: integer.toString());
         },
       );    
-print(event.periode);
+
       final periodeInput = inputConverter.stringToUnsignedInteger(event.periode);
       yield* periodeInput.fold(
         (failure) async* {
@@ -64,7 +91,16 @@ print(event.periode);
           await setCheckRadarPeriode(PeriodeParams(seconds: integer));
           yield InitState(checkRadarPeriode: integer.toString());
         },
-      );    
+      );  
+
+      final soundNotification = event.soundNotification;  
+      await setSoundNotification(BoolParams(onOff: soundNotification));
+
+      final askToAddRadar = event.askToAddRadar;  
+      await setAskToAddRadar(BoolParams(onOff: askToAddRadar));
+
+      final notification = event.notification;  
+      await setNotification(BoolParams(onOff: notification));
     }
   }
 }

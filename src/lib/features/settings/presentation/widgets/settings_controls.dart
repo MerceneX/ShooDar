@@ -8,10 +8,13 @@ import 'package:shoodar/features/settings/presentation/bloc/settings_event.dart'
 class SettingsForm extends StatefulWidget {
   final String currentDistance;
   final String currentPeriode;
+  final bool currentSoundNotification;
+  final bool currentAskToAddRadar;
+  final bool currentNotification;
   final String error;
 
   const SettingsForm(
-      {Key key, this.currentDistance, this.currentPeriode, this.error})
+      {Key key, this.currentDistance, this.currentPeriode, this.currentSoundNotification, this.currentAskToAddRadar, this.currentNotification, this.error})
       : super(key: key);
 
   @override
@@ -25,14 +28,28 @@ class _RegisterFormState extends State<SettingsForm> {
   final controllerPeriode = TextEditingController();
   String distance;
   String periode;
+  bool soundNotification;
+  bool askToAddRadar;
+  bool notification;
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showInfoFlushbar(context);
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) => dispatchRefresh());
+  });
+
+  if(soundNotification == null){
+    soundNotification = widget.currentSoundNotification;
+  }
+  if(askToAddRadar == null){
+    askToAddRadar = widget.currentAskToAddRadar;
+  }
+  if(notification == null){
+    notification = widget.currentNotification;
+  }
+
+  WidgetsBinding.instance.addPostFrameCallback((_) => dispatchRefresh());
     return Form(
         key: _formKey,
         child: Column(
@@ -42,7 +59,7 @@ class _RegisterFormState extends State<SettingsForm> {
                   padding: EdgeInsets.only(bottom: 25),
                   child: TextField(
                     controller: controllerDistance,
-                    onChanged: (distanceValue) {
+                    onChanged: (distanceValue) {        
                       distance = distanceValue;
                     },
                     onSubmitted: (_) {
@@ -51,13 +68,14 @@ class _RegisterFormState extends State<SettingsForm> {
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Radar alert distance(meters)",
-                        hintText: widget.currentDistance
+                        hintText: widget.currentPeriode
                     ),
                     style: Theme.of(context).textTheme.bodyText1,
                     autofocus: true,
                     enableSuggestions: true,                    
-                  )),
-                  Container(
+                  )
+                ),
+                Container(
                   padding: EdgeInsets.only(bottom: 25),
                   child: TextField(
                     controller: controllerPeriode,
@@ -75,7 +93,37 @@ class _RegisterFormState extends State<SettingsForm> {
                     style: Theme.of(context).textTheme.bodyText1,
                     autofocus: true,
                     enableSuggestions: true,                    
-                  )),
+                  )
+                ),
+                
+                /*Switch(
+                  value: soundNotification,
+                  onChanged: (value){
+                  setState(() {
+                    soundNotification=value;
+                    dispatchSave();
+                  }
+                );*/
+                /*Switch(
+                  value: askToAddRadar,
+                  onChanged: (value){
+                  setState(() {
+                    askToAddRadar=value;
+                    dispatchSave();
+                  }
+                );*/
+                Switch(
+                  value: notification,
+                  onChanged: (value){
+                  setState(() {
+                    notification=value;
+                    dispatchSave();
+                  }
+                );
+          },
+          activeTrackColor: Colors.lightGreenAccent,
+          activeColor: Colors.green,
+        ),
               Padding(
                   padding: EdgeInsets.only(top: 75),
                   child: MaterialButton(
@@ -108,7 +156,7 @@ class _RegisterFormState extends State<SettingsForm> {
     if(periode == null || periode == ""){
       dispatchPeriode = widget.currentPeriode;
     }
-    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(dispatchDistance, dispatchPeriode));
+    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(dispatchDistance, dispatchPeriode, soundNotification, askToAddRadar, notification));
   }
 
   void dispatchRefresh() {

@@ -175,4 +175,55 @@ class RadarRepositoryImpl implements RadarRepository {
       return int.parse(periode);
     }
   }
+
+  @override
+  Future<void> setSoundNotification(bool onOff) async {
+    radarSharedPreferencesDataSource.setSoundNotification(onOff);
+  }
+
+  @override
+  Future<bool> getSoundNotification() async {
+    var onOff = await radarSharedPreferencesDataSource.getSoundNotification();
+    if(onOff == null){
+      setSoundNotification(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
+
+  @override
+  Future<void> setAskToAddRadar(bool onOff) async {
+    radarSharedPreferencesDataSource.setAskToAddRadar(onOff);
+  }
+
+  @override
+  Future<bool> getAskToAddRadar() async {
+    var onOff = await radarSharedPreferencesDataSource.getAskToAddRadar();
+    if(onOff == null){
+      setAskToAddRadar(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
+
+  @override
+  Future<void> setShowNotification(bool onOff) async {
+    radarSharedPreferencesDataSource.setShowNotification(onOff);
+  }
+
+  @override
+  Future<bool> getShowNotification() async {
+    var onOff = await radarSharedPreferencesDataSource.getShowNotification();
+    if(onOff == null){
+      setShowNotification(true);
+      return(true);
+    }
+    else{
+      return onOff;
+    }
+  }
 }

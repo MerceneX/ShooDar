@@ -15,4 +15,10 @@ abstract class RadarRepository {
   Future<void> setRadarAlertDistance(int meters);
   Future<int> getCheckRadarPeriode();
   Future<void> setCheckRadarPeriode(int seconds);
+  Future<bool> getSoundNotification();
+  Future<void> setSoundNotification(bool onOff);
+  Future<bool> getAskToAddRadar();
+  Future<void> setAskToAddRadar(bool onOff);
+  Future<bool> getShowNotification();
+  Future<void> setShowNotification(bool onOff);
 }

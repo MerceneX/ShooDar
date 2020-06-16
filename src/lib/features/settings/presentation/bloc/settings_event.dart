@@ -14,9 +14,12 @@ class RefreshEvent extends SettingsEvent {
 class SaveEvent extends SettingsEvent {
   final String distance;
   final String periode;
+  final bool soundNotification;
+  final bool askToAddRadar;
+  final bool notification;
 
-  SaveEvent(this.distance, this.periode);
+  SaveEvent(this.distance, this.periode, this.soundNotification, this.askToAddRadar, this.notification);
 
   @override
-  List<Object> get props => [distance, periode];
+  List<Object> get props => [distance, periode, soundNotification, askToAddRadar, notification];
 }
