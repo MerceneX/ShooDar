@@ -7,9 +7,10 @@ abstract class SettingsState extends Equatable {
 
 class InitState extends SettingsState {
   final String radarAlertDistance;
+  final String checkRadarPeriode;
 
-  InitState({this.radarAlertDistance});
-  List<Object> get props => [radarAlertDistance];
+  InitState({this.radarAlertDistance, this.checkRadarPeriode});
+  List<Object> get props => [radarAlertDistance, checkRadarPeriode];
 }
 
 class ErrorState extends SettingsState {

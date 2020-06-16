@@ -21,11 +21,12 @@ class Loaded extends RadarState {
   final CameraPosition initialCameraPosition;
   final bool isUserLoggedIn;
   final List<Radar> radars;
+  final int checkRadarPeriode;
 
-  Loaded(this.markers, this.location, this.controller, this.initialCameraPosition, this.isUserLoggedIn, this.radars);
+  Loaded(this.markers, this.location, this.controller, this.initialCameraPosition, this.isUserLoggedIn, this.radars, this.checkRadarPeriode);
 
   @override
-  List<Object> get props => [markers, location, controller, isUserLoggedIn];
+  List<Object> get props => [markers, location, controller, isUserLoggedIn, checkRadarPeriode];
 }
 
 class RadarIsClose extends RadarState {

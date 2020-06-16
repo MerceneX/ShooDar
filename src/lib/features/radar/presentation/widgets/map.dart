@@ -11,12 +11,14 @@ class Map extends StatefulWidget {
   final UserLocation location;
   final Completer<GoogleMapController> controller;
   final CameraPosition intitalCameraPosition;
+  final int periode;
 
   const Map(
       {Key key,
       @required this.radars,
       @required this.controller,
       @required this.intitalCameraPosition,
+      @required this.periode,
       this.location})
       : super(key: key);
 
@@ -34,7 +36,7 @@ class _MapState extends State<Map> {
 
     location = new Location();
 
-    const period = const Duration(seconds: 15);
+    var period = Duration(seconds: widget.periode);
     new Timer.periodic(
         period, (Timer t) => {
           if (context != null) {

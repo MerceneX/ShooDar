@@ -13,9 +13,10 @@ class RefreshEvent extends SettingsEvent {
 
 class SaveEvent extends SettingsEvent {
   final String distance;
+  final String periode;
 
-  SaveEvent(this.distance);
+  SaveEvent(this.distance, this.periode);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [distance, periode];
 }

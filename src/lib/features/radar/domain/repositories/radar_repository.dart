@@ -13,4 +13,6 @@ abstract class RadarRepository {
   void updateRadar(Radar radar);
   Future<int> getRadarAlertDistance();
   Future<void> setRadarAlertDistance(int meters);
+  Future<int> getCheckRadarPeriode();
+  Future<void> setCheckRadarPeriode(int seconds);
 }

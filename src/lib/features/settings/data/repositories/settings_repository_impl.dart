@@ -25,4 +25,21 @@ class SettingsRepositoryImpl implements SettingsRepository {
       return int.parse(distance);
     }
   }
+
+  @override
+  Future<void> setCheckRadarPeriode(int seconds) async {
+    settingsSharedPreferencesDataSource.setCheckRadarPeriode(seconds);
+  }
+
+  @override
+  Future<int> getCheckRadarPeriode() async {
+    var periode = await settingsSharedPreferencesDataSource.getCheckRadarPeriode();
+    if(periode == null){
+      setCheckRadarPeriode(15);
+      return(15);
+    }
+    else{
+      return int.parse(periode);
+    }
+  }
 }

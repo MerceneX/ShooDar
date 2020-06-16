@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/check_for_radars_in_presence.dart';
 import 'package:shoodar/features/radar/domain/usecases/delete_radar.dart';
+import 'package:shoodar/features/radar/domain/usecases/get_check_radar_periode_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_close_radar.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_radars.dart';
 import 'package:shoodar/features/radar/domain/usecases/get_markers.dart';
@@ -40,7 +41,7 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
   final GetRadarsById getRadarsById;
   final UpdateRadar updateRadar;
   final AppState appState = new AppState();
-
+  final GetCheckRadarPeriodeRadar radarPeriode;
 
   RadarBloc({
     @required AddRadar add,
@@ -53,6 +54,7 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
     @required GetRadarsById getRadarsById,
     @required GetCloseRadar getCloseRadar,
     @required UpdateRadar updateRadar,
+    @required GetCheckRadarPeriodeRadar radarPeriode,
   })  : assert(add != null),
         assert(getMarkers != null),
         assert(getUserLocation != null),
@@ -63,6 +65,7 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
         assert(getRadarsById != null),
         assert(getCloseRadar != null),
         assert(updateRadar != null),
+        assert(radarPeriode != null),
         addRadar = add,
         getMarkers = getMarkers,
         getUserLocation = getUserLocation,
@@ -72,7 +75,8 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
         deleteRadar = deleteRadar,
         getCloseRadar = getCloseRadar,
         updateRadar = updateRadar,
-        getRadarsById = getRadarsById;
+        getRadarsById = getRadarsById,
+        radarPeriode = radarPeriode;
 
   @override
   RadarState get initialState => InitialRadarState();
@@ -92,14 +96,16 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
       } else {
         radars = [];
       }
-      yield* _loadedState(null, null, null, null, isLoggedIn, radars: radars);
+      int periode = await radarPeriode(NoParams());
+      yield* _loadedState(null, null, null, null, isLoggedIn, periode, radars: radars);
     } else if (event is DeleteRadarsEvent) {
       List<Radar> radars = await getRadars(NoParams());
       bool isLoggedIn = await isUserLoggedInRadar(NoParams());
 
       await deleteRadar(DeleteRadarParams(radarId: event.id));
+      int periode = await radarPeriode(NoParams());
 
-      yield* _loadedState(null, null, null, null, isLoggedIn, radars: radars);
+      yield* _loadedState(null, null, null, null, isLoggedIn, periode, radars: radars);
     } else if (event is UpdateRadarEvent) {   
         updateRadar(UpdateRadarParams(radar: event.radar));
       }else if (event is LoadMapEvent) {
@@ -119,9 +125,9 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
           CameraPosition(zoom: 16, target: target, tilt: 18, bearing: 30);
 
       bool isLoggedIn = await isUserLoggedInRadar(NoParams());
-
+      int periode = await radarPeriode(NoParams());
       yield* _loadedState(
-          markers, userLocation, controller, initialCameraPosition, isLoggedIn);
+          markers, userLocation, controller, initialCameraPosition, isLoggedIn, periode);
     } else if (event is LocationChangedEvent) {
       Completer<GoogleMapController> controller = Completer();
 
@@ -155,18 +161,16 @@ class RadarBloc extends Bloc<RadarEvent, RadarState> {
         Future.delayed(Duration(seconds: 15), () {
              _showRadarExistanceConfirmationDialog(event.context, closeRadar);
           });
-   
+        int periode = await radarPeriode(NoParams());
         yield* _loadedState(
-            markers, loc, controller, initialCameraPosition, isLoggedIn);
+            markers, loc, controller, initialCameraPosition, isLoggedIn, periode);
       }
     }
   }
 
-  Stream<RadarState> _loadedState(Set<Marker> markers, location, controller,
-      initialCameraPosition, isLoggedIn,
-      {List<Radar> radars}) async* {
+  Stream<RadarState> _loadedState(Set<Marker> markers, location, controller, initialCameraPosition, isLoggedIn, checkRadarPeriode, {List<Radar> radars}) async* {
     yield Loaded(markers, location, controller, initialCameraPosition,
-        isLoggedIn, radars);
+        isLoggedIn, radars, checkRadarPeriode);
   }
 
   Future<AudioPlayer> playRadarAlertSound() async {

@@ -60,7 +60,8 @@ class MapPage extends StatelessWidget {
               radars: state.markers,
               location: state.location,
               controller: state.controller,
-              intitalCameraPosition: state.initialCameraPosition);
+              intitalCameraPosition: state.initialCameraPosition,
+              periode: state.checkRadarPeriode);
         } else {
           return null;
         }

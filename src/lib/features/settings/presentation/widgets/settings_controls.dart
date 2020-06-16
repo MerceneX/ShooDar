@@ -7,10 +7,11 @@ import 'package:shoodar/features/settings/presentation/bloc/settings_event.dart'
 
 class SettingsForm extends StatefulWidget {
   final String currentDistance;
+  final String currentPeriode;
   final String error;
 
   const SettingsForm(
-      {Key key, this.currentDistance, this.error})
+      {Key key, this.currentDistance, this.currentPeriode, this.error})
       : super(key: key);
 
   @override
@@ -21,7 +22,9 @@ class _RegisterFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
 
   final controllerDistance = TextEditingController();
+  final controllerPeriode = TextEditingController();
   String distance;
+  String periode;
   bool _obscureText = true;
 
   @override
@@ -43,12 +46,31 @@ class _RegisterFormState extends State<SettingsForm> {
                       distance = distanceValue;
                     },
                     onSubmitted: (_) {
-                      dispatchRegister();
+                      dispatchSave();
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: "Radar alert distance(meters)",
                         hintText: widget.currentDistance
+                    ),
+                    style: Theme.of(context).textTheme.bodyText1,
+                    autofocus: true,
+                    enableSuggestions: true,                    
+                  )),
+                  Container(
+                  padding: EdgeInsets.only(bottom: 25),
+                  child: TextField(
+                    controller: controllerPeriode,
+                    onChanged: (periodeValue) {
+                      periode = periodeValue;
+                    },
+                    onSubmitted: (_) {
+                      dispatchSave();
+                    },
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: "Chech for radar every __ (s)",
+                        hintText: widget.currentPeriode
                     ),
                     style: Theme.of(context).textTheme.bodyText1,
                     autofocus: true,
@@ -72,13 +94,21 @@ class _RegisterFormState extends State<SettingsForm> {
                                 .fontFamily),
                       ),
                       onPressed: () {
-                        dispatchRegister();
+                        dispatchSave();
                       }))
             ]));
   }
 
-  void dispatchRegister() {
-    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(distance));
+  void dispatchSave() {
+    String dispatchDistance = distance;
+    String dispatchPeriode = periode;
+    if(distance == null || distance == ""){
+      dispatchDistance = widget.currentDistance;
+    }
+    if(periode == null || periode == ""){
+      dispatchPeriode = widget.currentPeriode;
+    }
+    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(dispatchDistance, dispatchPeriode));
   }
 
   void dispatchRefresh() {

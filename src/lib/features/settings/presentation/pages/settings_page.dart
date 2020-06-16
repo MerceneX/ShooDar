@@ -83,10 +83,10 @@ class SettingsPage extends StatelessWidget {
                       BlocBuilder<SettingsBloc, SettingsState>(
                         builder: (context, state) {                          
                           if (state is InitState) {                        
-                            return SettingsForm(currentDistance: state.radarAlertDistance.toString(), error: null);
+                            return SettingsForm(currentDistance: state.radarAlertDistance.toString(), currentPeriode: state.checkRadarPeriode.toString(), error: null);
                           } 
                           else if (state is ErrorState) {  
-                            return SettingsForm(currentDistance: "", error: state.message);                      
+                            return SettingsForm(currentDistance: "", currentPeriode: "", error: state.message);                      
                           } 
                         },
                       ),
