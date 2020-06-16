@@ -1,12 +1,12 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/domain/entitites/radar.dart';
 import 'package:shoodar/features/radar/presentation/bloc/bloc.dart';
 import 'package:shoodar/features/radar/presentation/bloc/radar_bloc.dart';
 import 'package:shoodar/features/radar/presentation/pages/radar_info_page.dart';
-
 
 import '../../../../injection_container.dart';
 
@@ -23,6 +23,25 @@ class RadarHistoryList extends StatefulWidget {
 }
 
 class _RadarHistoryListState extends State<RadarHistoryList> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+  }
+
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

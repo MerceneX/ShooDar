@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shoodar/features/main_menu/presentation/widgets/bottom_navigation.dart';
@@ -25,7 +24,9 @@ class MapPage extends StatelessWidget {
               builder: (context) => ExitAppDialog(),
             ),
         child: Scaffold(
-          body: buildBody(context),
+          body: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: buildBody(context)),
           bottomNavigationBar: BottomNavigation(
             currentPage: 1,
           ),
