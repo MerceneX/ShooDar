@@ -13,9 +13,15 @@ class SettingsForm extends StatefulWidget {
   final bool currentNotification;
   final String error;
 
-  const SettingsForm(
-      {Key key, this.currentDistance, this.currentPeriode, this.currentSoundNotification, this.currentAskToAddRadar, this.currentNotification, this.error})
-      : super(key: key);
+  const SettingsForm({
+    Key key,
+    this.currentDistance,
+    this.currentPeriode,
+    this.currentSoundNotification,
+    this.currentAskToAddRadar,
+    this.currentNotification,
+    this.error,
+  }) : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -37,19 +43,19 @@ class _RegisterFormState extends State<SettingsForm> {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showInfoFlushbar(context);
-  });
+    });
 
-  if(soundNotification == null){
-    soundNotification = widget.currentSoundNotification;
-  }
-  if(askToAddRadar == null){
-    askToAddRadar = widget.currentAskToAddRadar;
-  }
-  if(notification == null){
-    notification = widget.currentNotification;
-  }
+    if (soundNotification == null) {
+      soundNotification = widget.currentSoundNotification;
+    }
+    if (askToAddRadar == null) {
+      askToAddRadar = widget.currentAskToAddRadar;
+    }
+    if (notification == null) {
+      notification = widget.currentNotification;
+    }
 
-  WidgetsBinding.instance.addPostFrameCallback((_) => dispatchRefresh());
+    WidgetsBinding.instance.addPostFrameCallback((_) => dispatchRefresh());
     return Form(
         key: _formKey,
         child: Column(
@@ -59,7 +65,7 @@ class _RegisterFormState extends State<SettingsForm> {
                   padding: EdgeInsets.only(bottom: 25),
                   child: TextField(
                     controller: controllerDistance,
-                    onChanged: (distanceValue) {        
+                    onChanged: (distanceValue) {
                       distance = distanceValue;
                     },
                     onSubmitted: (_) {
@@ -67,15 +73,13 @@ class _RegisterFormState extends State<SettingsForm> {
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        labelText: "Radar alert distance(meters)",
-                        hintText: widget.currentPeriode
+                      labelText: "Koliko m pred radarjem opozorim?",
+                      labelStyle: Theme.of(context).textTheme.bodyText1,
+                      hintText: widget.currentDistance,
                     ),
                     style: Theme.of(context).textTheme.bodyText1,
-                    autofocus: true,
-                    enableSuggestions: true,                    
-                  )
-                ),
-                Container(
+                  )),
+              Container(
                   padding: EdgeInsets.only(bottom: 25),
                   child: TextField(
                     controller: controllerPeriode,
@@ -87,52 +91,87 @@ class _RegisterFormState extends State<SettingsForm> {
                     },
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                        labelText: "Chech for radar every __ (s)",
-                        hintText: widget.currentPeriode
+                      labelText: "Na koliko sec preverim za radarje?",
+                      labelStyle: Theme.of(context).textTheme.bodyText1,
+                      hintText: widget.currentPeriode,
                     ),
                     style: Theme.of(context).textTheme.bodyText1,
-                    autofocus: true,
-                    enableSuggestions: true,                    
-                  )
-                ),
-                
-                /*Switch(
-                  value: soundNotification,
-                  onChanged: (value){
-                  setState(() {
-                    soundNotification=value;
-                    dispatchSave();
-                  }
-                );*/
-                /*Switch(
-                  value: askToAddRadar,
-                  onChanged: (value){
-                  setState(() {
-                    askToAddRadar=value;
-                    dispatchSave();
-                  }
-                );*/
-                Switch(
-                  value: notification,
-                  onChanged: (value){
-                  setState(() {
-                    notification=value;
-                    dispatchSave();
-                  }
-                );
-          },
-          activeTrackColor: Colors.lightGreenAccent,
-          activeColor: Colors.green,
-        ),
+                  )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      "Na radar opozorim z zvokom?",
+                      style: Theme.of(context).textTheme.bodyText1,
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                  Switch(
+                      value: soundNotification,
+                      onChanged: (value) {
+                        setState(() {
+                          soundNotification = value;
+                          dispatchSave();
+                        });
+                      }),
+                ],
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      "Zahtevam potrditev preden dodam?",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  Switch(
+                      value: askToAddRadar,
+                      onChanged: (value) {
+                        setState(() {
+                          askToAddRadar = value;
+                          dispatchSave();
+                        });
+                      }),
+                ],
+              ),
+              Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      "Omogočim potisna obvestila?",
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                  ),
+                  Switch(
+                    value: notification,
+                    onChanged: (value) {
+                      setState(() {
+                        notification = value;
+                        dispatchSave();
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Divider(),
               Padding(
-                  padding: EdgeInsets.only(top: 75),
+                  padding: EdgeInsets.only(top: 40),
                   child: MaterialButton(
                       highlightElevation: 1.0,
                       elevation: 3.0,
-                      height: 75,
-                      color: Theme.of(context).primaryColor,
+                      height: 80,
+                      minWidth: 150,
+                      color: Theme.of(context).primaryColor.withOpacity(0.8),
                       child: Text(
-                        "Save",
+                        "Shrani",
                         style: new TextStyle(
                             fontSize: 35,
                             color: Theme.of(context).textTheme.bodyText1.color,
@@ -143,6 +182,11 @@ class _RegisterFormState extends State<SettingsForm> {
                       ),
                       onPressed: () {
                         dispatchSave();
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            "Spremembe zabeležene",
+                          ),
+                        ));
                       }))
             ]));
   }
@@ -150,13 +194,14 @@ class _RegisterFormState extends State<SettingsForm> {
   void dispatchSave() {
     String dispatchDistance = distance;
     String dispatchPeriode = periode;
-    if(distance == null || distance == ""){
+    if (distance == null || distance == "") {
       dispatchDistance = widget.currentDistance;
     }
-    if(periode == null || periode == ""){
+    if (periode == null || periode == "") {
       dispatchPeriode = widget.currentPeriode;
     }
-    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(dispatchDistance, dispatchPeriode, soundNotification, askToAddRadar, notification));
+    BlocProvider.of<SettingsBloc>(context).add(SaveEvent(dispatchDistance,
+        dispatchPeriode, soundNotification, askToAddRadar, notification));
   }
 
   void dispatchRefresh() {
@@ -181,7 +226,6 @@ class _RegisterFormState extends State<SettingsForm> {
       )..show(context);
     }
   }
-
 
   void _toggle() {
     setState(() {

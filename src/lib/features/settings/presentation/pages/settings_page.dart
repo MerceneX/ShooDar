@@ -29,7 +29,7 @@ class SettingsPage extends StatelessWidget {
               ),
               child: ListView(
                 padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.2),
+                    top: MediaQuery.of(context).size.height * 0.1),
                 children: <Widget>[
                   Container(
                     padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -47,12 +47,22 @@ class SettingsPage extends StatelessWidget {
                         child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('ShooDar',
+                        Text('Nastavitve',
                             style: Theme.of(context).textTheme.headline1),
                       ],
                     )),
                   ),
-                  buildBody(context)
+                  Container(
+                      margin: EdgeInsets.only(
+                          top: 20, left: 20, right: 20, bottom: 30),
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              .color
+                              .withOpacity(0.4)),
+                      child: buildBody(context)),
                 ],
               )),
           bottomNavigationBar: BottomNavigation(
@@ -64,33 +74,28 @@ class SettingsPage extends StatelessWidget {
   BlocProvider<SettingsBloc> buildBody(BuildContext context) {
     return BlocProvider(
         create: (_) => sl<SettingsBloc>(),
-        child: Container(
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.03,
-              left: MediaQuery.of(context).size.width * 0.02,
-              right: MediaQuery.of(context).size.width * 0.02,
-            ),
-            child: Container(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.05,
-                  left: MediaQuery.of(context).size.width * 0.10,
-                  right: MediaQuery.of(context).size.width * 0.10,
-                  bottom: MediaQuery.of(context).size.height * 0.02,
-                ),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      BlocBuilder<SettingsBloc, SettingsState>(
-                        builder: (context, state) {                          
-                          if (state is InitState) {                        
-                            return SettingsForm(currentDistance: state.radarAlertDistance.toString(), currentPeriode: state.checkRadarPeriode.toString(), currentSoundNotification: state.soundNotification, currentAskToAddRadar: state.askToAddRadar, currentNotification: state.notification, error: null);
-                          } 
-                          else if (state is ErrorState) {  
-                            return SettingsForm(currentDistance: "", currentPeriode: "", error: state.message);                      
-                          } 
-                        },
-                      ),
-                    ]))));
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              BlocBuilder<SettingsBloc, SettingsState>(
+                builder: (context, state) {
+                  if (state is InitState) {
+                    return SettingsForm(
+                        currentDistance: state.radarAlertDistance.toString(),
+                        currentPeriode: state.checkRadarPeriode.toString(),
+                        currentSoundNotification: state.soundNotification,
+                        currentAskToAddRadar: state.askToAddRadar,
+                        currentNotification: state.notification,
+                        error: null);
+                  } else if (state is ErrorState) {
+                    return SettingsForm(
+                        currentDistance: "",
+                        currentPeriode: "",
+                        error: state.message);
+                  }
+                },
+              ),
+            ]));
   }
 
   _redirect(BuildContext context) async {
