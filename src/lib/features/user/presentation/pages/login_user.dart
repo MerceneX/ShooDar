@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                 ],
               )),
           bottomNavigationBar: BottomNavigation(
-            currentPage: 2,
+            currentPage: 0,
           ),
         ));
   }

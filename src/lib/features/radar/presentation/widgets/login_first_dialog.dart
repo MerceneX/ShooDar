@@ -10,9 +10,10 @@ class LoginFirstDialog extends StatelessWidget {
     return SimpleDialog(
       titlePadding: EdgeInsets.all(10),
       backgroundColor: Theme.of(context).primaryColor.withOpacity(0.5),
-      title: Center(
-        child: Text('Login to add radars!',
-            style: Theme.of(context).textTheme.headline2),
+      title: Text(
+        'Vpišite se, če želite dodati radar.',
+        style: Theme.of(context).textTheme.headline2,
+        textAlign: TextAlign.center,
       ),
       children: <Widget>[
         Row(
